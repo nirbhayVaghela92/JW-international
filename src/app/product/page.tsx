@@ -416,7 +416,7 @@ export default function ProductPage() {
                 {/* Button */}
                 <div className="mt-6">
                   <Button
-                    href={blog.link}
+                    // href={blog.link}
                     bgColor="bg-[#094745]"
                     textColor="text-white"
                     px="px-8"

@@ -1,37 +1,42 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel"
-import { FiArrowLeft, FiArrowRight, FiChevronLeft, FiChevronRight } from "react-icons/fi"
-import { useRef, useState } from "react"
-import Button from "@/components/common/Button"
-import SectionHeading from "@/components/common/SectionHeading"
-import ProductCard from "@/components/common/ProductCard"
-import FaqSection from "@/components/sections/FaqSection"
-import { Star } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import { HiOutlineCalendar } from "react-icons/hi"
-import VideoSection from "@/components/sections/VideoSection"
+} from "@/components/ui/carousel";
+import {
+  FiArrowLeft,
+  FiArrowRight,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi";
+import { useRef, useState } from "react";
+import Button from "@/components/common/Button";
+import SectionHeading from "@/components/common/SectionHeading";
+import ProductCard from "@/components/common/ProductCard";
+import FaqSection from "@/components/sections/FaqSection";
+import { Star } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { HiOutlineCalendar } from "react-icons/hi";
+import VideoSection from "@/components/sections/VideoSection";
 
 const banners = [
   {
     id: 1,
-    image: "/images/banner-1.png"
+    image: "/images/banner-1.png",
   },
   {
     id: 2,
-    image: "/images/banner-1.png"
+    image: "/images/banner-1.png",
   },
   {
     id: 3,
-    image: "/images/banner-1.png"
+    image: "/images/banner-1.png",
   },
-]
+];
 
 const categories = [
   {
@@ -58,8 +63,7 @@ const categories = [
     image: "/images/category/jewellery.png",
     link: "/category/jewellery",
   },
-]
-
+];
 
 const products = [
   {
@@ -126,7 +130,7 @@ const products = [
     price: "9,899",
     oldPrice: "10,399",
   },
-]
+];
 
 const testimonials = [
   {
@@ -135,7 +139,7 @@ const testimonials = [
     location: "From Canada",
     rating: 4.5,
     text: "I’ve been shopping online for years, but this was one of the best experiences I’ve had. The quality of the products is exceptional, and the attention to detail really impressed me. Everything arrived beautifully packaged and on time. I’m genuinely happy with my purchase and will definitely recommend it to friends.",
-    image: "images/users/user-1.png",
+    image: "/images/users/user-1.png",
   },
   {
     id: 2,
@@ -143,7 +147,7 @@ const testimonials = [
     location: "New York",
     rating: 4.5,
     text: "I was looking for something stylish yet comfortable, and this brand delivered exactly that. The designs feel premium, and the craftsmanship is top-notch. What stood out the most was how thoughtfully everything was curated. It’s rare to find quality and affordability together—this brand nails both.",
-    image: "images/users/user-2.png",
+    image: "/images/users/user-2.png",
   },
   {
     id: 3,
@@ -151,37 +155,33 @@ const testimonials = [
     location: "Texas",
     rating: 4.5,
     text: "My experience from browsing to checkout was incredibly smooth. The customer support team was responsive and helped me choose the right product without any hassle. When my order arrived, I was amazed by the quality and finishing. It truly felt like a high-end purchase at a great price.",
-    image: "images/users/user-3.png",
+    image: "/images/users/user-3.png",
   },
-]
-
+];
 
 const blogs = [
   {
     id: 1,
     image: "/images/blogs/blog-1.png",
     date: "November 6, 2025",
-    title:
-      "Styling Tips: How to Wear Designer Jewellery for Every Occasion",
+    title: "Styling Tips: How to Wear Designer Jewellery for Every Occasion",
     link: "/blogs/styling-tips",
   },
   {
     id: 2,
     image: "/images/blogs/blog-2.png",
     date: "November 6, 2025",
-    title:
-      "Luxury on a Budget: Best Affordable Designer Handbags",
+    title: "Luxury on a Budget: Best Affordable Designer Handbags",
     link: "/blogs/luxury-on-budget",
   },
   {
     id: 3,
     image: "/images/blogs/blog-3.png",
     date: "November 6, 2025",
-    title:
-      "How Luxury Jewellery Brands Are Embracing Sustainability",
+    title: "How Luxury Jewellery Brands Are Embracing Sustainability",
     link: "/blogs/sustainability",
   },
-]
+];
 
 const products2 = [
   {
@@ -232,130 +232,125 @@ const products2 = [
     price: "12,499",
     oldPrice: "14,499",
   },
-]
+];
 
 const items = [
-    {
-      id: 1,
-      title: "Cash On Delivery",
-      desc: "Shop worry-free and pay only when your order arrives.",
-      icon: "/images/icons/cod.png",
-    },
-    {
-      id: 2,
-      title: "10000+ Happy Customer",
-      desc: "Trusted by thousands of satisfied shoppers worldwide.",
-      icon: "/images/icons/happy.png",
-    },
-    {
-      id: 3,
-      title: "Worldwide Shipping",
-      desc: "Delivering your favorites to your doorstep, wherever you are.",
-      icon: "/images/icons/shipping.png",
-    },
-    {
-      id: 4,
-      title: "Handmade with Love",
-      desc: "Each piece crafted carefully with passion and care.",
-      icon: "/images/icons/handmade.png",
-    },
-  ]
+  {
+    id: 1,
+    title: "Cash On Delivery",
+    desc: "Shop worry-free and pay only when your order arrives.",
+    icon: "/images/icons/cod.png",
+  },
+  {
+    id: 2,
+    title: "10000+ Happy Customer",
+    desc: "Trusted by thousands of satisfied shoppers worldwide.",
+    icon: "/images/icons/happy.png",
+  },
+  {
+    id: 3,
+    title: "Worldwide Shipping",
+    desc: "Delivering your favorites to your doorstep, wherever you are.",
+    icon: "/images/icons/shipping.png",
+  },
+  {
+    id: 4,
+    title: "Handmade with Love",
+    desc: "Each piece crafted carefully with passion and care.",
+    icon: "/images/icons/handmade.png",
+  },
+];
 
 export default function HomePage() {
-    const router = useRouter();
-   const carouselRef = useRef(null)
-    const duplicatedTestimonials = [...testimonials, ...testimonials]
+  const router = useRouter();
+  const carouselRef = useRef(null);
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
-    const [api, setApi] = useState(null)
-    const [canPrev, setCanPrev] = useState(false)
-    const [canNext, setCanNext] = useState(true)
+  const [api, setApi] = useState(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
 
-    const onInit = (embla) => {
-      setApi(embla)
-      setCanPrev(embla.canScrollPrev())
-      setCanNext(embla.canScrollNext())
+  const onInit = (embla) => {
+    setApi(embla);
+    setCanPrev(embla.canScrollPrev());
+    setCanNext(embla.canScrollNext());
 
-      embla.on("select", () => {
-        setCanPrev(embla.canScrollPrev())
-        setCanNext(embla.canScrollNext())
-      })
-    }
+    embla.on("select", () => {
+      setCanPrev(embla.canScrollPrev());
+      setCanNext(embla.canScrollNext());
+    });
+  };
   return (
-    <main className="pt-[46px]">
-
-
+    <main className="pt-11.5">
       {/* Banner Start Here */}
-
       <div className="relative w-full overflow-hidden">
         <Carousel
-        opts={{ align: "start", loop: true }}
-        setApi={(api) => (carouselRef.current = api)}
-      >
-        <CarouselContent>
-          {banners.map((banner) => (
-            <CarouselItem key={banner.id}>
-              {/* 🔥 Background Image Banner */}
-              <main
-                className="h-screen w-full bg-cover bg-left sm:bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${banner.image})` }}
-              >
-
-                
-                <div className="cus-container flex h-full items-center">
-                  <div className="text-center md:text-left">
-                    <h2 className="font-bold text-[35px] sm:text-[50px] md:text-[94px] leading-[70px] md:leading-[114px] text-white font-serif">
-                      Crafted for Those <br />
-                      <span className="text-[#E7B250]"> Who Value Time</span>
-                    </h2>
-                    <p className="text-[18px] md:text-[24px] leading-[1.5] text-white">Premium watch designs built with elegance and durability to complement your personal style.</p>
-                    <Button textColor="text-[#0f4a45]" bgColor="bg-[#E7B250]" className="uppercase mt-5 px-[30px]">
-                      Discover New Arrivals
-                    </Button>
-
+          opts={{ align: "start", loop: true }}
+          setApi={(api) => (carouselRef.current = api)}
+        >
+          <CarouselContent>
+            {banners.map((banner) => (
+              <CarouselItem key={banner.id}>
+                {/* 🔥 Background Image Banner */}
+                <main
+                  className="h-screen w-full bg-cover bg-left sm:bg-center bg-no-repeat"
+                  style={{ backgroundImage: `url(${banner.image})` }}
+                >
+                  <div className="cus-container flex h-full items-center">
+                    <div className="text-center md:text-left">
+                      <h2 className="font-bold text-[35px] sm:text-[50px] md:text-[94px] leading-17.5 md:leading-28.5 text-white font-serif">
+                        Crafted for Those <br />
+                        <span className="text-[#E7B250]"> Who Value Time</span>
+                      </h2>
+                      <p className="text-[18px] md:text-[24px] leading-normal text-white">
+                        Premium watch designs built with elegance and durability
+                        to complement your personal style.
+                      </p>
+                      <Button
+                        textColor="text-[#0f4a45]"
+                        bgColor="bg-[#E7B250]"
+                        className="uppercase mt-5 px-7.5"
+                      >
+                        Discover New Arrivals
+                      </Button>
+                    </div>
                   </div>
-                </div>
-               
-              </main>
-              
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-
+                </main>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
         {/* Left Arrow */}
-          <button
+        <button
           onClick={() => carouselRef.current?.scrollPrev()}
-            // disabled={!canPrev}
-            className={`
-              absolute top-[45%] left-[20px] z-5
+          // disabled={!canPrev}
+          className={`
+              absolute top-[45%] left-5 z-5
               flex w-10 h-10 md:h-14 md:w-14 items-center justify-center
               transition bg-[#E7B250]
             `}
-          >
-            <FiArrowLeft className="text-2xl text-white" />
-          </button>
+        >
+          <FiArrowLeft className="text-2xl text-white" />
+        </button>
 
-          {/* Right Arrow */}
-          <button
+        {/* Right Arrow */}
+        <button
           onClick={() => carouselRef.current?.scrollNext()}
-            // disabled={!canNext}
-            className={`
-              absolute top-[45%] right-[20px] z-5
+          // disabled={!canNext}
+          className={`
+              absolute top-[45%] right-5 z-5
               flex w-10 h-10 md:h-14 md:w-14 items-center justify-center
               transition bg-[#E7B250]
             `}
-          >
-            <FiArrowRight className="text-2xl text-white" />
-          </button>
-
-
+        >
+          <FiArrowRight className="text-2xl text-white" />
+        </button>
       </div>
 
-      
       {/* Catergory Section Start Here */}
 
-       <section className=" py-28">
-        <div className="cus-container">          
+      <section className=" py-28">
+        <div className="cus-container">
           {/* Heading */}
           <SectionHeading
             title="Shop by Category"
@@ -365,10 +360,7 @@ export default function HomePage() {
           {/* Grid */}
           <div className="mt-16 grid gap-6 px-4 sm:grid-cols-2 lg:grid-cols-4">
             {categories.map((item) => (
-              <div
-                key={item.id}
-                className="relative h-[420px] overflow-hidden"
-              >
+              <div key={item.id} className="relative h-105 overflow-hidden">
                 {/* Background Image */}
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 hover:scale-105"
@@ -381,7 +373,7 @@ export default function HomePage() {
                 {/* Button */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%]">
                   <Button
-                    href={item.link}
+                    // href={item.link}
                     bgColor="bg-white"
                     textColor="text-[#094745]"
                     px="px-6"
@@ -399,9 +391,6 @@ export default function HomePage() {
         </div>
       </section>
 
-
-
-
       <section className="bg-white py-28 relative">
         {/* Heading */}
         <SectionHeading
@@ -411,10 +400,7 @@ export default function HomePage() {
 
         {/* Carousel */}
         <div className="relative mt-16">
-          <Carousel
-            opts={{ align: "start", loop: false }}
-            setApi={onInit}
-          >
+          <Carousel opts={{ align: "start", loop: false }} setApi={onInit}>
             <CarouselContent className="-ml-6">
               {products2.map((product) => (
                 <CarouselItem
@@ -432,7 +418,7 @@ export default function HomePage() {
             onClick={() => api?.scrollPrev()}
             disabled={!canPrev}
             className={`
-              absolute top-[35%] left-[20px] z-10
+              absolute top-[35%] left-5 z-10
               flex h-14 w-14 items-center justify-center
               transition
               ${canPrev ? "bg-[#E7B250]" : "bg-[#1B1918] cursor-not-allowed"}
@@ -446,7 +432,7 @@ export default function HomePage() {
             onClick={() => api?.scrollNext()}
             disabled={!canNext}
             className={`
-              absolute top-[35%] right-[20px] z-10
+              absolute top-[35%] right-5 z-10
               flex h-14 w-14 items-center justify-center
               transition
               ${canNext ? "bg-[#E7B250]" : "bg-[#1B1918] cursor-not-allowed"}
@@ -457,34 +443,31 @@ export default function HomePage() {
         </div>
       </section>
 
-
       <section>
         <div className="cus-container">
-          <div className="flex flex-col gap-[14px] md:flex-row">
+          <div className="flex flex-col gap-3.5 md:flex-row">
             <Image
               src="/images/offer/offer-1.png"
               width={878}
               height={770}
               alt="offer"
-              className="w-full h-auto max-w-[878px]"
-             />
+              className="w-full h-auto max-w-219.5"
+            />
             <Image
               src="/images/offer/offer-2.png"
               width={737}
               height={770}
               alt="offer"
-              className="w-full h-auto max-w-[737px]"
-             />
+              className="w-full h-auto max-w-184.25"
+            />
           </div>
         </div>
       </section>
-
 
       {/* What's New Section Start Here */}
 
       <section className="py-20">
         <div className="cus-container">
-
           <SectionHeading
             title="What’s New!"
             subtitle="Explore new arrivals crafted for your everyday look."
@@ -496,26 +479,18 @@ export default function HomePage() {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-
         </div>
       </section>
-      
 
       <VideoSection />
-
-
 
       <section className="py-10">
         <div className="cus-container">
           {/* OUTER BORDER */}
           <div className="border border-[#E7B250]">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative">
-
               {items.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="relative flex justify-center"
-                >
+                <div key={item.id} className="relative flex justify-center">
                   {/* VERTICAL DIVIDER */}
                   {index !== items.length - 1 && (
                     <span
@@ -533,10 +508,12 @@ export default function HomePage() {
                   <div className="flex flex-col items-center px-6 py-12 text-center">
                     {/* Icon */}
                     <div className="mb-4">
-                      <img
+                      <Image
+                        width={200}
+                        height={200}
                         src={item.icon}
                         alt={item.title}
-                        className="h-[76px] w-[76px] object-contain"
+                        className="h-19 w-19 object-contain"
                       />
                     </div>
 
@@ -552,65 +529,86 @@ export default function HomePage() {
                   </div>
                 </div>
               ))}
-
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-[100px]">
+      <section className="py-25">
         <div className="cus-container">
-          <SectionHeading title={'People in JS International'} subtitle={'Unmatched design—superior performance and customer satisfaction in one.'} />
+          <SectionHeading
+            title={"People in JS International"}
+            subtitle={
+              "Unmatched design—superior performance and customer satisfaction in one."
+            }
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            <div className="text-center bg-[#F6EDDB] pb-[27px]">
-              <Image src="/images/international/watch-1.png" width={344} height={344} alt="watch" className="mx-auto" />
-              <h4 className="text-[32px] mb-[15px]">Watches</h4>
-              <Button className="w-full mx-auto max-w-[365px]">Discover</Button>
+            <div className="text-center bg-[#F6EDDB] pb-6.75">
+              <Image
+                src="/images/international/watch-1.png"
+                width={344}
+                height={344}
+                alt="watch"
+                className="mx-auto"
+              />
+              <h4 className="text-[32px] mb-3.75">Watches</h4>
+              <Button className="w-full mx-auto max-w-91.25">Discover</Button>
             </div>
-            <div className="text-center bg-[#F6EDDB] pb-[27px]">
-              <Image src="/images/international/purse.png" width={344} height={344} alt="purse" className="mx-auto" />
-              <h4 className="text-[32px] mb-[15px]">Purses</h4>
-              <Button className="w-full mx-auto max-w-[365px]">Discover</Button>
+            <div className="text-center bg-[#F6EDDB] pb-6.75">
+              <Image
+                src="/images/international/purse.png"
+                width={344}
+                height={344}
+                alt="purse"
+                className="mx-auto"
+              />
+              <h4 className="text-[32px] mb-3.75">Purses</h4>
+              <Button className="w-full mx-auto max-w-91.25">Discover</Button>
             </div>
-            <div className="text-center bg-[#F6EDDB] pb-[27px]">
-              <Image src="/images/international/ring.png" width={344} height={344} alt="ring" className="mx-auto" />
-              <h4 className="text-[32px] mb-[15px]">Jewellery</h4>
-              <Button className="w-full mx-auto max-w-[365px]">Discover</Button>
+            <div className="text-center bg-[#F6EDDB] pb-6.75">
+              <Image
+                src="/images/international/ring.png"
+                width={344}
+                height={344}
+                alt="ring"
+                className="mx-auto"
+              />
+              <h4 className="text-[32px] mb-3.75">Jewellery</h4>
+              <Button className="w-full mx-auto max-w-91.25">Discover</Button>
             </div>
           </div>
         </div>
       </section>
-
 
       {/* Testimonial Start Here */}
 
-
       <section className="py-16 overflow-hidden bg-background">
         <SectionHeading
-              title="Customer Say!"
-              subtitle="Real reviews from parents who trust and love our brand."
-            />
+          title="Customer Say!"
+          subtitle="Real reviews from parents who trust and love our brand."
+        />
 
         <div className="relative">
           {/* Gradient overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-background to-transparent z-10 pointer-events-none" />
 
           {/* Scrolling container */}
-          <div className="flex gap-6 animate-infinite-scroll hover:[animation-play-state:paused]">
+          <div className="flex gap-6 animate-infinite-scroll hover:paused">
             {duplicatedTestimonials.map((testimonial, index) => (
               <Card
                 key={`${testimonial.id}-${index}`}
-                className="relative text-center md:text-left flex-shrink-0 w-[622px] p-8 bg-card border-2 gap-0 border-1 border-[#E7B250] rounded-none"
+                className="relative text-center md:text-left shrink-0 w-155.5 p-8 bg-card border-2 gap-0 border-[#E7B250] rounded-none"
               >
-
                 <div className="flex justify-center md:justify-between">
                   {/* Avatar */}
                   <div className="mb-4">
-                    <img
+                    <Image
+                      width={200}
+                      height={200}
                       src={testimonial.image || "/placeholder.svg"}
                       alt={testimonial.name}
-                      className="w-[100px] h-[100px] rounded-full object-cover"
+                      className="w-25 h-25 rounded-full object-cover"
                     />
                   </div>
 
@@ -619,15 +617,14 @@ export default function HomePage() {
                     alt="quote-icon"
                     width={87}
                     height={57}
-                    className=" hidden md:block h-[57px] object-contain"
+                    className=" hidden md:block h-14.25 object-contain"
                   />
-
                 </div>
 
                 {/* Star rating */}
                 <div className="flex justify-center md:justify-start gap-1 mb-4">
                   {[...Array(5)].map((_, i) => {
-                    const starValue = i + 1
+                    const starValue = i + 1;
                     return (
                       <div key={i} className="relative">
                         {starValue <= Math.floor(testimonial.rating) ? (
@@ -643,17 +640,23 @@ export default function HomePage() {
                           <Star className="w-5 h-5 fill-none text-[#fbbf24]" />
                         )}
                       </div>
-                    )
+                    );
                   })}
                 </div>
 
                 {/* Testimonial text */}
-                <p className="text-foreground text-sm leading-relaxed mb-6">{testimonial.text}</p>
+                <p className="text-foreground text-sm leading-relaxed mb-6">
+                  {testimonial.text}
+                </p>
 
                 {/* Author info */}
                 <div className="flex justify-center md:justify-start items-baseline gap-1">
-                  <span className="font-bold text-foreground text-lg">{testimonial.name}</span>
-                  <span className="text-[#f59e0b] text-sm font-medium">{testimonial.location}</span>
+                  <span className="font-bold text-foreground text-lg">
+                    {testimonial.name}
+                  </span>
+                  <span className="text-[#f59e0b] text-sm font-medium">
+                    {testimonial.location}
+                  </span>
                 </div>
               </Card>
             ))}
@@ -664,13 +667,11 @@ export default function HomePage() {
       {/* Faq Section Start Here */}
 
       <FaqSection />
-      
 
       {/* Latest Blog Start Here */}
 
       <section className="bg-white py-28">
         <div className="cus-container">
-                    
           {/* Heading */}
           <SectionHeading
             title="Latest Blogs"
@@ -681,13 +682,14 @@ export default function HomePage() {
           <div className="mt-16 grid gap-10 px-4 md:grid-cols-2 lg:grid-cols-3">
             {blogs.map((blog) => (
               <div key={blog.id} className="flex flex-col">
-                
                 {/* Image */}
                 <div className="overflow-hidden">
-                  <img
+                  <Image
+                    width={200}
+                    height={200}
                     src={blog.image}
                     alt={blog.title}
-                    className="h-[440px] w-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="h-110 w-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>
 
@@ -705,7 +707,7 @@ export default function HomePage() {
                 {/* Button */}
                 <div className="mt-6">
                   <Button
-                    href={blog.link}
+                    // href={blog.link}
                     bgColor="bg-[#094745]"
                     textColor="text-white"
                     px="px-8"
@@ -716,12 +718,11 @@ export default function HomePage() {
                     EXPLORE MORE
                   </Button>
                 </div>
-
               </div>
             ))}
           </div>
         </div>
       </section>
     </main>
-  )
+  );
 }

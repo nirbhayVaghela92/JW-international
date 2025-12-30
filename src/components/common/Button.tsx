@@ -1,3 +1,14 @@
+import { ReactNode, ButtonHTMLAttributes } from "react"
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode
+  bgColor?: string
+  textColor?: string
+  px?: string
+  py?: string
+  fontSize?: string
+}
+
 export default function Button({
   children,
   bgColor = "bg-[#0f4a45]",
@@ -6,11 +17,10 @@ export default function Button({
   py = "py-[13px]",
   fontSize = "text-base",
   className = "",
-  onClick,
-}) {
+  ...props
+}: ButtonProps) {
   return (
     <button
-      onClick={onClick}
       className={`
         ${bgColor}
         ${textColor}
@@ -21,6 +31,7 @@ export default function Button({
         transition
         hover:opacity-90
       `}
+      {...props}
     >
       {children}
     </button>

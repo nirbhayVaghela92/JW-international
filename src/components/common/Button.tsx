@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react"
 import { ReactNode, ButtonHTMLAttributes } from "react"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -6,7 +7,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   textColor?: string
   px?: string
   py?: string
-  fontSize?: string
+  fontSize?: string,
+  isLoading?: boolean
 }
 
 export default function Button({
@@ -17,6 +19,7 @@ export default function Button({
   py = "py-[13px]",
   fontSize = "text-base",
   className = "",
+  isLoading = false,
   ...props
 }: ButtonProps) {
   return (
@@ -33,7 +36,7 @@ export default function Button({
       `}
       {...props}
     >
-      {children}
+      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : children}
     </button>
   )
 }

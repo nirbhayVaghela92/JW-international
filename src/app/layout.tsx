@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import TopHeader from "@/components/common/TopHeader";
 import Footer from "@/components/common/Footer";
+import LayoutWrapper from "@/components/layout/layoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,21 +24,21 @@ const inter = Inter({
   variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-})
+});
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   weight: ["400", "500", "600", "700"],
   display: "swap",
-})
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable}`}>
         <TopHeader />
-        {children}
+        <LayoutWrapper>{children}</LayoutWrapper>
         <Footer />
       </body>
     </html>

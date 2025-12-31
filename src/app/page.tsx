@@ -22,6 +22,7 @@ import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { HiOutlineCalendar } from "react-icons/hi";
 import VideoSection from "@/components/sections/VideoSection";
+import { routes } from "@/lib/routes";
 
 const banners = [
   {
@@ -44,24 +45,28 @@ const categories = [
     title: "Watch for Men",
     image: "/images/category/men-watch.png",
     link: "/category/men-watches",
+    route: routes.menWatches,
   },
   {
     id: 2,
     title: "Watch for Women",
     image: "/images/category/women-watches.png",
     link: "/category/women-watches",
+    route: routes.womenWatches,
   },
   {
     id: 3,
     title: "Purses",
     image: "/images/category/purse.png",
     link: "/category/purses",
+    route: routes.purses,
   },
   {
     id: 4,
     title: "Jewellery",
     image: "/images/category/jewellery.png",
     link: "/category/jewellery",
+    route: routes.jewellery,
   },
 ];
 
@@ -371,16 +376,15 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-black/10" />
 
                 {/* Button */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%]">
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[80%] ">
                   <Button
-                    // href={item.link}
                     bgColor="bg-white"
                     textColor="text-[#094745]"
                     px="px-6"
                     py="py-3"
                     fontSize="text-base"
-                    className="w-full rounded-none"
-                    onClick={() => router.push("/product")}
+                    className="w-full rounded-none cursor-pointer"
+                    onClick={() => router.push(item.route)}
                   >
                     {item.title}
                   </Button>
@@ -466,7 +470,7 @@ export default function HomePage() {
 
       {/* What's New Section Start Here */}
 
-      <section className="py-20">
+      <section className="py-20" id="new-arrivals">
         <div className="cus-container">
           <SectionHeading
             title="What’s New!"

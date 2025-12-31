@@ -18,6 +18,7 @@ import { PiHeart } from "react-icons/pi";
 
 import "./header.css";
 import CartSidebar from "../cart/CartSidebar";
+import { routes } from "@/lib/routes";
 
 export default function TopHeader() {
   const [open, setOpen] = useState(false);
@@ -65,26 +66,26 @@ export default function TopHeader() {
                 </div>
             </div>
         </div> */}
-      <header className="mt-[28px]">
+      <header className="mt-7">
         <div className="cus-container">
-          <div className="flex items-center justify-between bg-[#fff]">
+          <div className="flex items-center justify-between bg-white">
             {/* 🔹 Logo */}
-            <div className="flex items-center gap-3 p-[20px] pr-0">
+            <div className="flex items-center gap-3 p-5 pr-0">
               <a onClick={() => router.push("/")} className="cursor-pointer">
                 <Image
                   src="/images/common/logo.png" // you will add image
                   alt="JS International"
                   width={340}
                   height={69}
-                  className="h-auto w-[140px] md:w-[180px] xl:w-[340px]"
+                  className="h-auto w-35 md:w-45 xl:w-85"
                 />
               </a>
             </div>
 
-            <div className="flex lg:gap-[30px] xl:gap-[82px]">
+            <div className="flex lg:gap-7.5 xl:gap-20.5">
               {/* 🔹 Desktop Menu */}
               <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-medium">
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">
+                <a className="text-[#1B1918] hover:text-[#0f4a45]" href="#new-arrivals">
                   New Arrivals
                 </a>
 
@@ -97,14 +98,15 @@ export default function TopHeader() {
                   <div className="absolute left-0 top-full hidden w-48 bg-white shadow-lg group-hover:block">
                     <a
                       className="block px-4 py-3 text-[#1B1918] hover:bg-gray-100"
+                      href={routes.menWatches}
                     >
-                      Men's Watches
+                      Men&apos;s Watches
                     </a>
                     <a
                       className="block px-4 py-3 text-[#1B1918] hover:bg-gray-100"
                       onClick={() => router.push("/product")}
                     >
-                      Women's Watches
+                      Women&apos;s Watches
                     </a>
                   </div>
                 </div>
@@ -155,7 +157,7 @@ export default function TopHeader() {
           {open && (
             <div className="lg:hidden border-t border-gray-200 bg-white">
               <nav className="flex flex-col gap-4 py-4 pl-4 font-medium">
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">
+                <a className="text-[#1B1918] hover:text-[#0f4a45] cursor-pointer!" href="#new-arrivals">
                   New Arrivals
                 </a>
                 <a onClick={() => router.push("/product")} className="text-[#1B1918] hover:text-[#0f4a45]">

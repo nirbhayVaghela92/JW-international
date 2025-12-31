@@ -249,7 +249,7 @@ export default function ProductPage() {
             className=" h-[400px] w-full"
           />
           <div className="text-center absolute top-1/2 left-1/2 bottom-[80px] -translate-x-1/2">
-            <h2 className="text-[40px] text-[#E7B250] font-bold">WOMEN'S WATCHES</h2>
+            <h2 className="text-[40px] text-[#E7B250] font-bold">WOMEN&apos;S WATCHES</h2>
             <nav className="text-sm text-[#9B9B9B]">
               <Link
                 href="/"
@@ -261,7 +261,7 @@ export default function ProductPage() {
               <span className="mx-2">/</span>
 
               <span className="text-[#E7B250] font-medium">
-                Women's Watches
+                Women&apos;s Watches
               </span>
             </nav>
           </div>

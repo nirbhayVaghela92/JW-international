@@ -9,15 +9,16 @@ import InputField from "@/components/common/InputField";
 import PasswordField from "@/components/common/PasswordField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema, registerSchemaType } from "@/types/schemas";
-import { useRegister, useSignIn } from "@/hooks/queries/useAuth";
-import { routes } from "@/lib/routes";
+import { editProfileSchema, editProfileSchemaType } from "@/types/schemas";
+import { useUpdateProfile } from "@/hooks/queries/useAuth";
+import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
 
-export default function AccountPage() {
+export default function EditProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
-  const { mutateAsync: registerUser, isPending } = useRegister();
+  const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
+  const { user} = useGetAuthDetails();
 
   const {
     getValues,
@@ -27,18 +28,18 @@ export default function AccountPage() {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      phoneNumber: user?.phoneNumber || "",
+      password: null,
+      confirmPassword: null,
     },
-    resolver: yupResolver(registerSchema),
-  });
+    resolver: yupResolver(editProfileSchema),
+  }); 
 
-  const onSubmit = async (values: registerSchemaType) => {
-    // console.log(values, "values");
-    await registerUser({
+  const onSubmit = async (values: editProfileSchemaType) => {
+    await updateProfile({
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
@@ -55,8 +56,8 @@ export default function AccountPage() {
             <div className="max-w-138 py-12.25 mx-auto">
               {/* Heading */}
               <SectionHeading
-                title="Create Your Account"
-                subtitle="It just takes a minute — set up your profile and get started."
+                title="Edit Your Profile"
+                subtitle="Update your personal information and account settings."
               />
 
               {/* Form */}
@@ -64,7 +65,7 @@ export default function AccountPage() {
                 className="mt-12 space-y-6"
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
-              >
+              > 
                 {/* First & Last Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputField
@@ -97,69 +98,73 @@ export default function AccountPage() {
                 <InputField
                   label="Phone Number"
                   required
+                  pattern="[0-9+\-\s()]{7,}"
                   type="phoneNumber"
                   icon={<HiOutlinePhone />}
                   placeholder="Enter your phone number"
                   {...register("phoneNumber")}
                   error={errors.phoneNumber?.message}
                 />
-                {/* 
-                <InputField
-                  label="OTP"
-                  required
-                  icon={<span className="text-sm font-semibold">***</span>}
-                  placeholder="Enter your OTP"
-                /> */}
 
-                {/* Password */}
-                <PasswordField
-                  label="Password"
-                  required
-                  placeholder="Enter your password"
-                  show={showPassword}
-                  toggle={() => setShowPassword(!showPassword)}
-                  {...register("password")}
-                  error={errors.password?.message}
-                />
+                {/* Password Section */}
+                <div className="pt-4 border-t border-gray-200">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">
+                    Change Password (Optional)
+                  </h3>
 
-                {/* Confirm Password */}
-                <PasswordField
-                  label="Confirm Password"
-                  required
-                  placeholder="Enter your confirm password"
-                  show={showConfirmPassword}
-                  toggle={() => setShowConfirmPassword(!showConfirmPassword)}
-                  error={errors.confirmPassword?.message}
-                  {...register("confirmPassword")}
-                />
+                  {/* New Password */}
+                  <div className="space-y-6">
+                    <PasswordField
+                      label="New Password"
+                      placeholder="Enter new password"
+                      show={showPassword}
+                      toggle={() => setShowPassword(!showPassword)}
+                      {...register("password")}
+                      error={errors.password?.message}
+                    />
+
+                    {/* Confirm Password */}
+                    <PasswordField
+                      label="Confirm New Password"
+                      placeholder="Confirm new password"
+                      show={showConfirmPassword}
+                      toggle={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      error={errors.confirmPassword?.message}
+                      {...register("confirmPassword")}
+                    />
+                  </div>
+                </div>
 
                 {/* Submit */}
-                <Button
-                  bgColor="bg-[#094745]"
-                  textColor="text-white"
-                  px="px-8"
-                  py="py-4"
-                  fontSize="text-sm"
-                  className="w-full rounded-none"
-                  isLoading={isPending}
-                  type="submit"
-                >
-                  CREATE ACCOUNT
-                </Button>
-
-                {/* Login link */}
-                <p
-                  className="text-center text-sm text-[#6B6B6B]"
-                  onClick={() => router.push("/login")}
-                >
-                  Already have an account?{" "}
-                  <a
-                    className="font-medium text-[#094745] cursor-pointer"
-                    onClick={() => router.push(routes.signIn)}
+                <div className="flex gap-4">
+                  <Button
+                    bgColor="bg-[#094745]"
+                    textColor="text-white"
+                    px="px-8"
+                    py="py-4"
+                    fontSize="text-sm"
+                    className="flex-1 rounded-none"
+                    isLoading={isPending}
+                    type="submit"
                   >
-                    Log in
-                  </a>
-                </p>
+                    UPDATE PROFILE
+                  </Button>
+
+                  <Button
+                    bgColor="bg-gray-200"
+                    textColor="text-gray-700"
+                    px="px-8"
+                    py="py-4"
+                    fontSize="text-sm"
+                    className="rounded-none"
+                    type="button"
+                    onClick={() => router.back()}
+                  >
+                    CANCEL
+                  </Button>
+                </div>
               </form>
             </div>
           </div>
@@ -168,3 +173,5 @@ export default function AccountPage() {
     </>
   );
 }
+
+

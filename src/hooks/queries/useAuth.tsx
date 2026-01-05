@@ -1,4 +1,4 @@
-import { register, signIn } from "@/services";
+import { register, signIn, updateProfile } from "@/services";
 import { registerSchemaType, SignInSchemaType } from "@/types/schemas";
 import { useMutation } from "@tanstack/react-query";
 
@@ -23,3 +23,15 @@ export const useRegister = () => {
   });
   return response;
 };
+
+export const useUpdateProfile = () => {
+  const response = useMutation({
+    mutationKey: ["useUpdateProfile"],
+    mutationFn: async (body: Partial<registerSchemaType>) => {
+      // Assuming there's an updateProfile service function
+      const res = await updateProfile(body);
+      return res;
+    }
+  });
+  return response;
+}

@@ -20,3 +20,12 @@ export const register = (body: registerSchemaType) => {
     successMessage: "Register successfully. Please login to continue.",
   });
 };
+
+export const updateProfile = (body: Partial<registerSchemaType>) => {
+  return apiRequest({
+    method: "put",
+    url: API.updateProfile,
+    data: body,
+    successMessage: "Profile updated successfully.",
+  });
+}

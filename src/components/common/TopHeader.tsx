@@ -8,24 +8,24 @@ import { PiYoutubeLogo } from "react-icons/pi";
 import { TbBrandLinkedin } from "react-icons/tb";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-
 import { useState } from "react";
 import Link from "next/link";
-import { FiSearch, FiUser, FiChevronDown, FiMenu, FiX } from "react-icons/fi";
-
+import {  FiUser, FiChevronDown, FiMenu, FiX } from "react-icons/fi";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { PiHeart } from "react-icons/pi";
-
 import "./header.css";
 import CartSidebar from "../cart/CartSidebar";
 import { routes } from "@/lib/routes";
 import { SearchBar } from "./SearchBar";
+import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
 
 export default function TopHeader() {
   const pathName = usePathname();
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const router = useRouter();
+  
+  const { isAuthenticated, user } = useGetAuthDetails();
 
   return (
     <div className="w-full text-white fixed top-0 z-10">
@@ -37,21 +37,21 @@ export default function TopHeader() {
             </p>
 
             <div className="items-center gap-4 flex social-icons">
-              <a>
+              <Link href="#">
                 <FaInstagram className="text-xl md:text-2xl" />
-              </a>
-              <a>
+              </Link>
+              <Link href="#">
                 <TbBrandFacebook className="text-xl md:text-2xl" />
-              </a>
-              <a>
+              </Link>
+              <Link href="#">
                 <FaXTwitter className="text-xl md:text-2xl" />
-              </a>
-              <a>
+              </Link>
+              <Link href="#">
                 <PiYoutubeLogo className="text-xl md:text-2xl" />
-              </a>
-              <a>
+              </Link>
+              <Link href="#">
                 <TbBrandLinkedin className="text-xl md:text-2xl" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function TopHeader() {
           <div className="flex items-center justify-between bg-white">
             {/* 🔹 Logo */}
             <div className="flex items-center gap-3 p-5 pr-0">
-              <a onClick={() => router.push("/")} className="cursor-pointer">
+              <Link href="/" className="cursor-pointer">
                 <Image
                   src="/images/common/logo.png" // you will add image
                   alt="JS International"
@@ -69,7 +69,7 @@ export default function TopHeader() {
                   height={69}
                   className="h-auto w-35 md:w-45 xl:w-85"
                 />
-              </a>
+              </Link>
             </div>
 
             <div className="flex lg:gap-7.5 xl:gap-20.5">
@@ -126,39 +126,41 @@ export default function TopHeader() {
                   Sale
                 </Link> */}
               </nav>
-
+              
               {/* 🔹 Icons */}
-            <div className="flex items-center gap-3 md:gap-5 bg-[#f7ecd6] px-3 md:px-6 py-7 md:py-11">
+              <div className="flex items-center gap-3 md:gap-5 bg-[#f7ecd6] px-3 md:px-6 py-7 md:py-11">
+                {/* Search icon slot (same size as other icons) */}
+                <div className="relative shrink-0">
+                  <SearchBar />
+                </div>
 
-  {/* Search icon slot (same size as other icons) */}
-  <div className="relative shrink-0">
-    <SearchBar />
-  </div>
+                {/* Other icons */}
+                <LiaShoppingCartSolid
+                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() => setCartOpen(true)}
+                />
 
-  {/* Other icons */}
-  <LiaShoppingCartSolid
-    className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-    onClick={() => setCartOpen(true)}
-  />
+                <PiHeart
+                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() => router.push(routes.wishList)}
+                />
 
-  <PiHeart
-    className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-    onClick={() => router.push(routes.wishList)}
-  />
+                {/* <FiUser
+                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() => router.push(routes.signIn)}
+                /> */}
+                <FiUser
+                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() => router.push(isAuthenticated ? routes.editUserDetails : routes.signIn)}
+                />
 
-  <FiUser
-    className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-    onClick={() => router.push(routes.signIn)}
-  />
-
-  <button
-    className="lg:hidden text-2xl shrink-0"
-    onClick={() => setOpen(!open)}
-  >
-    {open ? <FiX /> : <FiMenu />}
-  </button>
-</div>
-
+                <button
+                  className="lg:hidden text-2xl shrink-0 text-[#1B1918]"
+                  onClick={() => setOpen(!open)}
+                >
+                  {open ? <FiX /> : <FiMenu />}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -168,24 +170,24 @@ export default function TopHeader() {
           {open && (
             <div className="lg:hidden border-t border-gray-200 bg-white">
               <nav className="flex flex-col gap-4 py-4 pl-4 font-medium">
-                <a
+                <Link
                   className="text-[#1B1918] hover:text-[#0f4a45] cursor-pointer!"
-                  href="#new-arrivals"
+                  href="/#new-arrivals"
                 >
                   New Arrivals
-                </a>
-                <a
-                  onClick={() => router.push("/product")}
+                </Link>
+                <Link
+                  href={routes.menWatches}
                   className="text-[#1B1918] hover:text-[#0f4a45]"
                 >
                   Watches
-                </a>
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">Purses</a>
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">Jewellery</a>
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">
+                </Link>
+                <Link href={routes.purses} className="text-[#1B1918] hover:text-[#0f4a45]">Purses</Link>
+                <Link href={routes.jewellery} className="text-[#1B1918] hover:text-[#0f4a45]">Jewellery</Link>
+                {/* <Link className="text-[#1B1918] hover:text-[#0f4a45]">
                   Featured Collections
-                </a>
-                <a className="text-[#1B1918] hover:text-[#0f4a45]">Sale</a>
+                </Link>
+                <Link className="text-[#1B1918] hover:text-[#0f4a45]">Sale</Link> */}
               </nav>
             </div>
           )}
@@ -194,4 +196,3 @@ export default function TopHeader() {
     </div>
   );
 }
-/* Get 5% Extra Discount On Prepaid Orders for orders above Rs. 1000 */

@@ -354,7 +354,7 @@ export default function HomePage() {
 
       {/* Catergory Section Start Here */}
 
-      <section className=" py-28">
+      <section className="py-28" id="categories">
         <div className="cus-container">
           {/* Heading */}
           <SectionHeading

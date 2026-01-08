@@ -1,6 +1,6 @@
-import { Categories } from "@/types"
+import {  ProductSections } from "@/types"
 
-export const getSectionLabel = (category: Categories) => {
+export const getSectionLabel = (category: ProductSections) => {
     if(category === "menWatches"){
         return "Men's Watches";
     } else if(category === "womenWatches"){

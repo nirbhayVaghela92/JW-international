@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client"
 
 import * as React from "react"
@@ -5,6 +6,8 @@ import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useEffect, useRef, useState } from "react"
+import { cn } from "@/lib/utils"
 
 // Sample product data - replace with your actual data source
 const sampleProducts = [
@@ -18,14 +21,14 @@ const sampleProducts = [
   { id: 8, name: "Water Bottle", category: "Sports", price: 19.99 },
 ]
 
-export function SearchBar() {
-  const [open, setOpen] = React.useState(false)
-  const [expanded, setExpanded] = React.useState(false)
-  const [searchQuery, setSearchQuery] = React.useState("")
-  const [filteredProducts, setFilteredProducts] = React.useState(sampleProducts)
-  const inputRef = React.useRef<HTMLInputElement>(null)
+export function SearchBar({className}: {className?: string}) {
+  const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState(sampleProducts)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredProducts(sampleProducts)
     } else {
@@ -59,7 +62,7 @@ export function SearchBar() {
   }
 
   // Close popover when search bar collapses
-  React.useEffect(() => {
+  useEffect(() => {
     if (!expanded) {
       setOpen(false)
     }
@@ -69,13 +72,15 @@ export function SearchBar() {
     <Popover open={open && expanded} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div 
-          className={`relative flex items-center transition-all duration-300 ease-in-out ${
-            expanded ? "w-full max-w-xl" : "w-10"
-          }`}
+          className={cn(
+            "relative flex items-center transition-all duration-300 ease-in-out p-0!",
+            expanded ? "w-full max-w-xl" : "w-5 h-5",
+            className
+          )}
           onClick={!expanded ? handleExpand : undefined}
         >
           <Search className={`absolute h-5 w-5 text-gray-600 transition-all duration-300 ${
-            expanded ? "left-3" : "left-2.5"
+            expanded ? "left-3" : ""
           } ${expanded ? "" : "cursor-pointer hover:text-gray-900"}`} />
           <Input
             ref={inputRef}
@@ -93,7 +98,7 @@ export function SearchBar() {
             }}
             className={`transition-all duration-300 ease-in-out border-gray-300 text-[#1B1918] ${
               expanded 
-                ? "w-full pl-10 pr-10 opacity-100" 
+                ? "w-full h-8 pl-10 pr-10 opacity-100" 
                 : "w-0 pl-0 pr-0 opacity-0 pointer-events-none border-0"
             }`}
           />

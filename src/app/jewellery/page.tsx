@@ -1,7 +1,7 @@
-import CategoryPage from "@/components/pages/CategoryPage";
+import ProductListPage from "@/components/pages/ProductListPage";
 
 const Jewellery = () => {
-  return <CategoryPage catgeory="jewellery" />;
+  return <ProductListPage category="jewellery" />;
 };
 
 export default Jewellery;

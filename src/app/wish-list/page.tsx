@@ -1,7 +1,7 @@
-import CategoryPage from "@/components/pages/CategoryPage";
+import ProductListPage from "@/components/pages/ProductListPage";
 
-const WomenWatchesPage = () => {
-  return <CategoryPage catgeory="WishList"/>;
+const WishListPage = () => {
+  return <ProductListPage category="WishList" />;
 };
 
-export default WomenWatchesPage;
+export default WishListPage;

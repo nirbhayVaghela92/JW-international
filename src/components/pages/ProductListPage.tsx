@@ -1,16 +1,13 @@
 "use client";
 
-import Button from "@/components/common/Button";
 import ProductCard from "@/components/common/ProductCard";
-import SectionHeading from "@/components/common/SectionHeading";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
-import { HiOutlineCalendar } from "react-icons/hi";
-import BlogSection from "../sections/BlogSection";
-import { Categories } from "@/types";
+import { ProductSections } from "@/types";
 import { getSectionLabel } from "@/helpers/categoryHelper";
+import { routes } from "@/lib/routes";
 
 const products = [
   {
@@ -208,15 +205,15 @@ const products = [
   },
 ];
 
-interface CategoryPageProps {
-  catgeory: Categories;
+interface ProductListPageProps {
+  category: ProductSections;
 }
 
-export const CategoryPage: FC<CategoryPageProps> = ({ catgeory }) => {
+export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
 
-  const categoryLable = getSectionLabel(catgeory);
+  const categoryLabel = getSectionLabel(category);
 
   return (
     <main className="pt-11.5">
@@ -230,18 +227,16 @@ export const CategoryPage: FC<CategoryPageProps> = ({ catgeory }) => {
         />
         <div className="text-center absolute top-1/2 left-1/2 bottom-20 -translate-x-1/2">
           <h2 className="text-[40px] text-[#E7B250] font-bold">
-            {categoryLable.toUpperCase()}
+            {categoryLabel?.toUpperCase()}
           </h2>
           <nav className="text-sm text-[#9B9B9B]">
-            <Link href="/" className="hover:text-[#094745] transition">
+            <Link href={routes.home} className="hover:text-[#094745] transition">
               Home
             </Link>
 
             <span className="mx-2">/</span>
 
-            <span className="text-[#E7B250] font-medium">
-              {categoryLable}
-            </span>
+            <span className="text-[#E7B250] font-medium">{categoryLabel}</span>
           </nav>
         </div>
       </section>
@@ -324,7 +319,7 @@ export const CategoryPage: FC<CategoryPageProps> = ({ catgeory }) => {
 
               {/* Product Count */}
               <p className="hidden sm:block text-sm text-black">
-                {categoryLable} <span>(90)</span>
+                {categoryLabel} <span>(90)</span>
               </p>
             </div>
           </div>
@@ -348,9 +343,8 @@ export const CategoryPage: FC<CategoryPageProps> = ({ catgeory }) => {
           </div>
         </div>
       </section>
-
     </main>
   );
 };
 
-export default CategoryPage;
+export default ProductListPage;

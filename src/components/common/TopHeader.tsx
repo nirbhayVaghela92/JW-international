@@ -10,21 +10,21 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import {  FiUser, FiChevronDown, FiMenu, FiX } from "react-icons/fi";
-import { LiaShoppingCartSolid } from "react-icons/lia";
+import { FiUser, FiChevronDown, FiMenu, FiX } from "react-icons/fi";
 import { PiHeart } from "react-icons/pi";
 import "./header.css";
-import CartSidebar from "../cart/CartSidebar";
+import CartSidebar from "@/components/cart/CartSidebar";
 import { routes } from "@/lib/routes";
 import { SearchBar } from "./SearchBar";
 import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
+import CartIcon from "@/components/cart/CartIcon";
 
 export default function TopHeader() {
   const pathName = usePathname();
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const router = useRouter();
-  
+
   const { isAuthenticated, user } = useGetAuthDetails();
 
   return (
@@ -126,22 +126,27 @@ export default function TopHeader() {
                   Sale
                 </Link> */}
               </nav>
-              
+
               {/* 🔹 Icons */}
               <div className="flex items-center gap-3 md:gap-5 bg-[#f7ecd6] px-3 md:px-6 py-7 md:py-11">
                 {/* Search icon slot (same size as other icons) */}
-                <div className="relative shrink-0">
-                  <SearchBar />
-                </div>
+                {/* <div className="relative shrink-0"> */}
+                  <SearchBar  />
+                {/* </div> */}
 
                 {/* Other icons */}
-                <LiaShoppingCartSolid
+                {/* <LiaShoppingCartSolid
                   className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() => setCartOpen(true)}
+                /> */}
+                <CartIcon
+                  className="w-5! h-5!"
+                  itemCount={2} 
                   onClick={() => setCartOpen(true)}
                 />
 
                 <PiHeart
-                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  className="w-5! h-5! text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
                   onClick={() => router.push(routes.wishList)}
                 />
 
@@ -150,8 +155,12 @@ export default function TopHeader() {
                   onClick={() => router.push(routes.signIn)}
                 /> */}
                 <FiUser
-                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-                  onClick={() => router.push(isAuthenticated ? routes.editUserDetails : routes.signIn)}
+                  className="w-5! h-5! text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  onClick={() =>
+                    router.push(
+                      isAuthenticated ? routes.editUserDetails : routes.signIn
+                    )
+                  }
                 />
 
                 <button
@@ -182,8 +191,18 @@ export default function TopHeader() {
                 >
                   Watches
                 </Link>
-                <Link href={routes.purses} className="text-[#1B1918] hover:text-[#0f4a45]">Purses</Link>
-                <Link href={routes.jewellery} className="text-[#1B1918] hover:text-[#0f4a45]">Jewellery</Link>
+                <Link
+                  href={routes.purses}
+                  className="text-[#1B1918] hover:text-[#0f4a45]"
+                >
+                  Purses
+                </Link>
+                <Link
+                  href={routes.jewellery}
+                  className="text-[#1B1918] hover:text-[#0f4a45]"
+                >
+                  Jewellery
+                </Link>
                 {/* <Link className="text-[#1B1918] hover:text-[#0f4a45]">
                   Featured Collections
                 </Link>

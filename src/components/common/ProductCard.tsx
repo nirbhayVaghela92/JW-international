@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PiHeart } from "react-icons/pi";
 import Button from "@/components/common/Button";
 import { useRouter } from "next/navigation";
+import { routes } from "@/lib/routes";
 
 export default function ProductCard({ product }) {
   const [liked, setLiked] = useState(false);
@@ -56,7 +57,7 @@ export default function ProductCard({ product }) {
         textColor="text-white"
         fontSize="text-sm"
         className="w-full rounded-none font-medium cursor-pointer"
-        onClick={() => router.push("/detail")}
+        onClick={() => router.push(routes.productDetails(product.id))}
       >
         SHOP NOW
       </Button>

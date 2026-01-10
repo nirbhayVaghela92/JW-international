@@ -19,7 +19,7 @@ export default function EditProfilePage() {
   const router = useRouter();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const { user} = useGetAuthDetails();
-
+  
   const {
     getValues,
     register,

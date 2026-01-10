@@ -1,24 +1,26 @@
 import { LocalStorageGetItem } from "@/helpers/storageHelpers";
 import Cookies from "js-cookie";
+import { useCartStore } from "./store/useCartStore";
+import { useRouter } from "next/navigation";
+import { routes } from "@/lib/routes";
 
 export const useGetAuthDetails = () => {
   const token = Cookies.get("token");
   const userDetails = LocalStorageGetItem("userDetails");
+  const router = useRouter();
+  const { clearCart } = useCartStore();
 
-//   return {
-//     isAuthenticated: !!token,
-//     user: userDetails,
-//     token,
-//   };
+  const handleLogout = () => {
+    Cookies.remove("token");
+    localStorage.removeItem("userDetails");
+    clearCart();
+    router.push(routes.home);
+  };
+
   return {
-    isAuthenticated: true,
-    user: {
-        id: 1,
-        firstName: "Mehul",
-        lastName: "patel",
-        email: "mehul.patel@yop.com",
-        phoneNumber: "9876543210",
-    },
-    token : "dummy-token",
+    isAuthenticated: !!token,
+    user: userDetails,
+    token,
+    handleLogout,
   };
 };

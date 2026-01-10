@@ -19,14 +19,14 @@ export default function CartSidebar({ isOpen, onClose }) {
   return (
     <>
       {/* Overlay */}
-      {/* <div
+      <div
         onClick={onClose}
         className={`
           fixed inset-0 z-40 bg-black/60
           transition-opacity duration-300
           ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
-      /> */}
+      />
 
       {/* Sidebar */}
       <aside
@@ -44,7 +44,7 @@ export default function CartSidebar({ isOpen, onClose }) {
         <div className="flex items-center justify-between px-8 py-6 border-b">
           <div>
             <h2 className="text-[36px] font-serif text-[#094745]">
-              Your Cart <sup>1</sup>
+              Your Cart <sup>{cartItems.length}</sup>
             </h2>
             <p className="mt-1 text-[18px] text-gray-600">
               Congrats! You&apos;re qualified for free shipping!

@@ -49,11 +49,11 @@ const CartIcon: React.FC<CartIconProps> = ({
     <div
       onClick={onClick}
       className={cn(
-        "relative w-6 h-6 flex items-center justify-center cursor-pointer",
+        "relative  flex items-center justify-center cursor-pointer p-0!",
         className
       )}
     >
-      <LiaShoppingCartSolid className="text-[20px] text-[#1B1918] hover:text-[#0f4a45] transition-colors" />
+      <LiaShoppingCartSolid className="text-[20px] text-[#1B1918] hover:text-[#0f4a45] transition-colors w-6 h-6 p-0"   />
 
       <CartBadge count={itemCount} />
     </div>

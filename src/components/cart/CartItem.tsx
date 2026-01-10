@@ -14,14 +14,14 @@ const CartItem: FC<CartItemProps> = ({ cartItemDetails }) => {
   const { removeFromCart, getItemTotalAmount } = useCartStore();
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b min-h-[180px]">
+    <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b min-h-45">
       {/* Left */}
       <div className="flex flex-col sm:flex-row gap-6">
         <Image
           src={cartItemDetails.coverImageUrl}
           width={140}
           height={140}
-          className="object-cover flex-shrink-0"
+          className="object-cover shrink-0"
           alt={cartItemDetails.name}
         />
 
@@ -44,7 +44,7 @@ const CartItem: FC<CartItemProps> = ({ cartItemDetails }) => {
       <div className="flex flex-col gap-2 justify-between items-end h-full mt-4 md:mt-0">
         <div className="flex gap-3 items-center">
           <button
-            className="text-red-500"
+            className="text-red-500 cursor-pointer"
             onClick={() => removeFromCart(cartItemDetails.id)}
           >
             <FiTrash2 />

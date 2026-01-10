@@ -33,6 +33,7 @@ export default function Button({
         ${className}
         transition
         hover:opacity-90
+        cursor-pointer
       `}
       {...props}
     >

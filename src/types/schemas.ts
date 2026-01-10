@@ -82,7 +82,33 @@ export const contactSupportSchema = Yup.object().shape({
     // .min(10, "Query must be at least 10 characters")
     .max(1000, "Query must not exceed 1000 characters"),
 });
-
 export type contactSupportSchemaType = Yup.InferType<
   typeof contactSupportSchema
 >;
+
+export const forgotPasswordSchema = Yup.object({
+  email: Yup.string()
+    .trim()
+    .email("Invalid email address")
+    .required("Email is required"),
+});
+export type forgotPasswordSchemaType = Yup.InferType<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = Yup.object({
+  password: Yup.string()
+    .trim()
+    .min(8, "Password must be at least 8 characters")
+    .max(64, "Password must be at most 64 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/\d/, "Password must contain at least one number")
+    .matches(
+      /[@$!%*?&#]/,
+      "Password must contain at least one special character"
+    )
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
+});
+export type resetPasswordSchemaType = Yup.InferType<typeof resetPasswordSchema>;

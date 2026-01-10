@@ -19,6 +19,7 @@ import { SearchBar } from "./SearchBar";
 import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
 import CartIcon from "@/components/cart/CartIcon";
 import { useCartStore } from "@/hooks/store/useCartStore";
+import { UserMenu } from "./userMenu";
 
 export default function TopHeader() {
   const pathName = usePathname();
@@ -26,7 +27,7 @@ export default function TopHeader() {
   const [cartOpen, setCartOpen] = useState(false);
   const router = useRouter();
   const { cartItems } = useCartStore();
-  const { isAuthenticated, user } = useGetAuthDetails();
+  const { isAuthenticated, user, handleLogout } = useGetAuthDetails();
 
   return (
     <div className="w-full text-white fixed top-0 z-10">
@@ -130,35 +131,28 @@ export default function TopHeader() {
 
               {/* 🔹 Icons */}
               <div className="flex items-center gap-3 md:gap-5 bg-[#f7ecd6] px-3 md:px-6 py-7 md:py-11">
-                {/* Search icon slot (same size as other icons) */}
-                <SearchBar className="w-6! h-6!" />
+                <SearchBar className="w-6 h-6" />
 
                 <CartIcon
-                  className="w-6! h-6!"
+                  className="p-0"
                   itemCount={cartItems.length}
                   onClick={() => setCartOpen(true)}
                 />
 
                 <PiHeart
-                  className="w-6! h-6! text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
+                  className="w-6! h-6! cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
                   onClick={() => router.push(routes.wishList)}
                 />
 
-                {/* <FiUser
-                  className="text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-                  onClick={() => router.push(routes.signIn)}
-                /> */}
-                <FiUser
-                  className="w-6! h-6! text-xl cursor-pointer text-[#1B1918] hover:text-[#0f4a45]"
-                  onClick={() =>
-                    router.push(
-                      isAuthenticated ? routes.editUserDetails : routes.signIn
-                    )
-                  }
+                <UserMenu
+                  isAuthenticated={isAuthenticated}
+                  userName={user?.name}
+                  onLogout={handleLogout}
                 />
 
+                {/* Mobile Menu Toggle */}
                 <button
-                  className="lg:hidden text-2xl shrink-0 text-[#1B1918] cursor-pointer"
+                  className="lg:hidden text-2xl shrink-0 text-[#1B1918]"
                   onClick={() => setOpen(!open)}
                 >
                   {open ? <FiX /> : <FiMenu />}

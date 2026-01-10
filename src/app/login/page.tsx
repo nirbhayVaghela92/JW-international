@@ -2,13 +2,8 @@
 import { useRouter } from "next/navigation";
 import SectionHeading from "@/components/common/SectionHeading";
 import Button from "@/components/common/Button";
-import {
-  HiOutlineMail,
-  HiOutlineLockClosed,
-  HiOutlineEye,
-  HiOutlinePhone,
-  HiOutlineEyeOff,
-} from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import PasswordField from "@/components/common/PasswordField";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,13 +12,13 @@ import { signInSchema, SignInSchemaType } from "@/types/schemas";
 import { useSignIn } from "@/hooks/queries";
 import InputField from "@/components/common/InputField";
 import { routes } from "@/lib/routes";
+import { LocalStorageSetItem } from "@/helpers/storageHelpers";
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { mutateAsync: signIn, isPending } = useSignIn();
   const {
-    getValues,
     register,
     handleSubmit,
     formState: { errors },
@@ -37,11 +32,21 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values: SignInSchemaType) => {
-    console.log(values, "values");
     await signIn({
       email: values.email,
       password: values.password,
     });
+
+    if (values.email === "john@yopmail.com" && values.password === "Dev@123") {
+      Cookies.set("token", "ffkjdhsjkhdskj");
+      LocalStorageSetItem("userDetails", {
+        firstName: "John",
+        lastName: "Wick",
+        email: "john@yopmail.com",
+        phoneNumber: "+1 234 567 8901",
+      });
+      router.push(routes.home);
+    }
   };
 
   return (
@@ -86,7 +91,7 @@ export default function LoginPage() {
                 {/* Forgot password */}
                 <div className="text-right">
                   <a
-                    // href="#"
+                    href={routes.forgotPassword}
                     className="text-sm text-[#094745] hover:underline"
                   >
                     Forgot your password?

@@ -12,10 +12,7 @@ const publicRegexRoutes = publicRoutes.map(
 );
 
 const middleware = (req: NextRequest) => {
-  // const sessionStatus = req.cookies.get("token")?.value;
-  // TODO: Replace the below line with actual session check logic
-  // const sessionStatus = "fsdfhsdfjsdf";
-  const sessionStatus = "";
+  const sessionStatus = req.cookies.get("token")?.value;
 
   // Get the access token from cookies
   const requestedRoute = req.nextUrl.pathname;

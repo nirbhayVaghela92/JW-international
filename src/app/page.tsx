@@ -291,7 +291,7 @@ export default function HomePage() {
         <div className="relative mt-16">
           <Carousel opts={{ align: "start", loop: false }} setApi={onInit}>
             <CarouselContent className="-ml-6">
-              {products?.slice(0, 5).map((product) => (
+              {products?.slice(0, 7).map((product) => (
                 <CarouselItem
                   key={product.id}
                   className="pl-6 basis-full sm:basis-1/2 lg:basis-[20%]"

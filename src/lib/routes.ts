@@ -1,14 +1,3 @@
-// export const routes= {
-//     signIn : "/login",
-//     register : "/register",
-//     product: "/products",
-//     productDetails: (id) => `/products/${id}`,
-//     menWatches:"/men-watches",
-//     womenWatches:"/women-watches",
-//     purses:"/purses",
-//     // featuredCollections:"/featured-collections",
-//     // sale:"/sale"
-//   }
 export const routes = {
   home: "/",
   signIn: "/login",
@@ -23,6 +12,9 @@ export const routes = {
   jewellery: "/jewellery",
   contactSupport: "/contact-support",
   watches: "/watches",
+  forgotPassword: "/forgot-password", 
+  verifyOtp: "/verify-otp",
+  resetPassword: "/reset-password",
   // featuredCollections:"/featured-collections",
   // sale:"/sale"
 };
@@ -30,6 +22,9 @@ export const routes = {
 export const publicRoutes: string[] = [
   "/",
   "/products",
+  routes.forgotPassword,
+  routes.verifyOtp,
+  routes.resetPassword,
   routes.signIn,
   routes.register,
   routes.product,

@@ -15,7 +15,7 @@ const CartQuantityActions: FC<CartQuantityActionsProps> = ({
 }) => {
   const { decreaseQty, increaseQty } = useCartStore();
   return (
-    <div className="flex items-center gap-6 border px-6 py-4 flex-1 justify-between cursor-pointer text-black">
+    <div className="flex items-center gap-6 border px-6 py-4 flex-1 justify-between text-black">
       <button onClick={() => decreaseQty(cartId)} className="text-lg cursor-pointer">
         <FiMinus />
       </button>

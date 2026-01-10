@@ -119,7 +119,7 @@ export default function ContactSupportPage() {
                     px="px-8"
                     py="py-4"
                     fontSize="text-sm"
-                    className="flex-1 rounded-none"
+                    className="flex-1 rounded-none cursor-pointer"
                     isLoading={isPending}
                     type="submit"
                   >
@@ -132,7 +132,7 @@ export default function ContactSupportPage() {
                     px="px-8"
                     py="py-4"
                     fontSize="text-sm"
-                    className="rounded-none"
+                    className="rounded-none cursor-pointer"
                     type="button"
                     onClick={() => router.back()}
                   >

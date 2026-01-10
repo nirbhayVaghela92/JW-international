@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { PiHeart } from "react-icons/pi";
+import { PiHeart, PiHeartFill } from "react-icons/pi";
 import Button from "@/components/common/Button";
 import { useRouter } from "next/navigation";
 import { routes } from "@/lib/routes";
@@ -18,16 +18,21 @@ export default function ProductCard({ product }) {
           onClick={() => setLiked(!liked)}
           className="absolute right-4 top-4"
         >
-          <PiHeart
+          {/* <PiHeart
             className={`text-xl transition ${
               liked ? "fill-[#0f4a45] text-[#0f4a45]" : "text-gray-400"
             }`}
-          />
+          /> */}
+          {liked ? (
+            <PiHeartFill className="text-xl text-[#0f4a45] transition-transform duration-200 group-hover:scale-110" />
+          ) : (
+            <PiHeart className="text-xl text-gray-400 transition-colors duration-200 group-hover:text-[#0f4a45]" />
+          )}
         </button>
 
         <Image
           src={product.coverImageUrl}
-          alt={product.title} 
+          alt={product.title}
           width={375}
           height={375}
           className="mx-auto h-93.75 w-full object-contain"

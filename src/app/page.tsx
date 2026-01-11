@@ -217,7 +217,7 @@ export default function HomePage() {
           className={`
               absolute top-[45%] left-5 z-5
               flex w-10 h-10 md:h-14 md:w-14 items-center justify-center
-              transition bg-[#E7B250]
+              transition bg-[#E7B250] cursor-pointer
             `}
         >
           <FiArrowLeft className="text-2xl text-white" />
@@ -230,7 +230,7 @@ export default function HomePage() {
           className={`
               absolute top-[45%] right-5 z-5
               flex w-10 h-10 md:h-14 md:w-14 items-center justify-center
-              transition bg-[#E7B250]
+              transition bg-[#E7B250] cursor-pointer
             `}
         >
           <FiArrowRight className="text-2xl text-white" />

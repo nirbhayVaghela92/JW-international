@@ -34,6 +34,7 @@ export default function Button({
         transition
         hover:opacity-90
         cursor-pointer
+        flex justify-center
       `}
       {...props}
     >

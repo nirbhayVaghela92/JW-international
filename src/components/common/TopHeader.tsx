@@ -152,7 +152,7 @@ export default function TopHeader() {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                  className="lg:hidden text-2xl shrink-0 text-[#1B1918]"
+                  className="lg:hidden text-2xl shrink-0 text-[#1B1918] cursor-pointer"
                   onClick={() => setOpen(!open)}
                 >
                   {open ? <FiX /> : <FiMenu />}

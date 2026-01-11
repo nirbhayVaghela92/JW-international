@@ -19,7 +19,7 @@ export default function EditProfilePage() {
   const router = useRouter();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const { user} = useGetAuthDetails();
-  
+  console.log(user, "user")
   const {
     getValues,
     register,
@@ -31,7 +31,7 @@ export default function EditProfilePage() {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       email: user?.email || "",
-      phoneNumber: user?.phoneNumber || "",
+      phoneNumber: user?.phone || "",
       password: null,
       confirmPassword: null,
     },

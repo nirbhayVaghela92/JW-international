@@ -20,7 +20,7 @@ export default function AccountPage() {
   const { mutateAsync: registerUser, isPending } = useRegister();
 
   const {
-    getValues,
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -38,13 +38,19 @@ export default function AccountPage() {
 
   const onSubmit = async (values: registerSchemaType) => {
     // console.log(values, "values");
-    await registerUser({
+    const res = await registerUser({
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
       phoneNumber: values.phoneNumber,
       password: values.password,
     });
+  
+    if(res.data.success){
+      reset();
+      router.push(routes.signIn);
+    }
+    
   };
 
   return (

@@ -32,19 +32,14 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values: SignInSchemaType) => {
-    await signIn({
+    const res = await signIn({
       email: values.email,
       password: values.password,
     });
 
-    if (values.email === "john@yopmail.com" && values.password === "Dev@123") {
-      Cookies.set("token", "ffkjdhsjkhdskj");
-      LocalStorageSetItem("userDetails", {
-        firstName: "John",
-        lastName: "Wick",
-        email: "john@yopmail.com",
-        phoneNumber: "+1 234 567 8901",
-      });
+    if (res?.data?.token) {
+      Cookies.set("token", res.data.token);
+      LocalStorageSetItem("userDetails", JSON.stringify(res.data.user));
       router.push(routes.home);
     }
   };

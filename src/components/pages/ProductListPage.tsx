@@ -2,14 +2,19 @@
 
 import ProductCard from "@/components/common/ProductCard";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { FiChevronDown } from "react-icons/fi";
-import { ProductSections } from "@/types";
-import { getSectionLabel } from "@/helpers/categoryHelper";
+import { FilterOptionKey, ProductListParams, ProductSections } from "@/types";
+import {
+  getKeysByProductSection,
+  getSectionLabel,
+} from "@/helpers/categoryHelper";
 import { routes } from "@/lib/routes";
 import Image from "next/image";
-import { products } from "@/lib/data";
-
+import { useProductList } from "@/hooks/queries/useProduct";
+import { Loader } from "@/components/common/Loader";
+import { filterOptions } from "@/lib/data";
+import { getLabelFromKey } from "@/helpers/commonHelpers";
 
 interface ProductListPageProps {
   category: ProductSections;
@@ -18,8 +23,91 @@ interface ProductListPageProps {
 export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedSort, setSelectedSort] = useState<string | null>(null);
+  const [filter, setFilter] = useState<ProductListParams>({
+    category: undefined,
+    arrival_sort: undefined,
+    bestSeller: false,
+    price_sort: undefined,
+    limit: 12,
+    page: 1,
+    newArrival: false,
+    search: undefined,
+    wishList: false,
+  });
+  const filterRef = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  const keys = getKeysByProductSection(category);
+  const {
+    data: productList,
+    isLoading,
+    pagination,
+  } = useProductList({
+    ...filter,
+    ...keys,
+    page: 1,
+    limit: 12,
+  });
 
   const categoryLabel = getSectionLabel(category);
+
+  const handleSortChange = (sortOption: string | null) => {
+    setSelectedSort(sortOption);
+    // Implement sorting logic here based on sortOption
+  };
+
+  const handleFilterChange = (filterOptionKey: FilterOptionKey) => {
+    setSelectedFilter(filterOptionKey);
+    if (filterOptionKey === "price_high_to_low") {
+      setFilter((prev) => ({
+        ...prev,
+        price_sort: "DESC",
+      }));
+    } else if (filterOptionKey === "price_low_to_high") {
+      setFilter((prev) => ({
+        ...prev,
+        price_sort: "ASC",
+      }));
+    } else if (filterOptionKey === "new_arrivals") {
+      setFilter((prev) => ({
+        ...prev,
+        newArrival: true,
+      }));
+    }
+    setFilterOpen(false);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedFilter(null);
+    setFilterOpen(false);
+    setFilter((prev) => ({
+      ...prev,
+      price_sort: undefined,
+      newArrival: false,
+    }))
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
+        setFilterOpen(false);
+      }
+
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setSortOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <main className="pt-11.5">
@@ -36,7 +124,10 @@ export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
             {categoryLabel?.toUpperCase()}
           </h2>
           <nav className="text-sm text-[#9B9B9B]">
-            <Link href={routes.home} className="hover:text-[#094745] transition">
+            <Link
+              href={routes.home}
+              className="hover:text-[#094745] transition"
+            >
               Home
             </Link>
 
@@ -49,85 +140,138 @@ export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
 
       <section className="w-full px-4 py-6">
         <div className="cus-container">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-end gap-4">
             {/* LEFT: Filter */}
-            <div className="relative">
+            <div className="relative" ref={filterRef}>
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setFilterOpen(!filterOpen)}
-                  className="
-                    border border-[#E7B250]
-                    px-4 py-3
-                    text-sm text-white
-                  "
+                  onClick={() => {
+                    setFilterOpen(!filterOpen);
+                    setSortOpen(false);
+                  }}
+                  className="border border-[#E7B250] px-4 py-3 cursor-pointer!"
                 >
-                  {/* Filter Icon Image */}
                   <Image
-                    width={5}
-                    height={5}
-                    src="/images/icons/filter.png" // you will replace
+                    width={20}
+                    height={20}
+                    src="/images/icons/filter.png"
                     alt="Filter"
-                    className="h-5 w-5"
+                    className="h-5 w-5 cursor-pointer!"
                   />
                 </button>
-                <span className="text-black">Filter</span>
+
+                <span className="text-black">{getLabelFromKey(selectedFilter, filterOptions.slice()) ?? "Filter"}</span>
               </div>
 
-              {/* Filter Dropdown */}
               {filterOpen && (
-                <div className="absolute left-0 top-full z-20 mt-2 w-48 border border-[#E7B250] bg-black p-4 text-sm text-white">
-                  <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                    Price: Low to High
-                  </p>
-                  <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                    Price: High to Low
-                  </p>
-                  <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                    New Arrivals
-                  </p>
+                <div className="absolute left-0 top-full z-20 mt-2 w-48 bg-black p-4 text-sm text-white">
+                  {/* Clear Filter */}
+                  {selectedFilter && (
+                    <>
+                      <p
+                        onClick={() => handleClearFilters()}
+                        className="
+                          mb-2 cursor-pointer!
+                          text-xs text-[#9B9B9B]
+                          hover:text-[#E7B250]
+                        "
+                      >
+                        Clear Filter
+                      </p>
+
+                      <div className="mb-2 h-px bg-white/10" />
+                    </>
+                  )}
+
+                  {filterOptions.map((item) => (
+                    <p
+                      key={item.key}
+                      onClick={() => {
+                        handleFilterChange(item.key);
+                      }}
+                      className={`
+                        py-1 cursor-pointer!
+                        hover:text-[#E7B250]
+                        ${
+                          selectedFilter === item.key
+                            ? "text-[#E7B250] font-medium"
+                            : ""
+                        }
+                      `}
+                    >
+                      {item.label}
+                    </p>
+                  ))}
                 </div>
               )}
             </div>
 
             {/* RIGHT: Sort + Count */}
-            <div className="flex items-center gap-6">
-              {/* Sort By */}
-              <div className="relative">
-                <button
-                  onClick={() => setSortOpen(!sortOpen)}
-                  className="
-                    flex items-center justify-between gap-4
-                    border border-[#E7B250]
-                    px-5 py-3
-                    text-sm text-white
-                    min-w-45
-                  "
-                >
-                  <span className="text-black">Sort By</span>
-                  <FiChevronDown className="text-[#E7B250]" />
-                </button>
+            {/* <div className="relative" ref={sortRef}>
+              <button
+                onClick={() => {
+                  setSortOpen(!sortOpen);
+                  setFilterOpen(false);
+                }}
+                className="
+                  flex items-center justify-between gap-4
+                  border border-[#E7B250]
+                  px-5 py-3
+                  text-sm
+                  min-w-[180px]
+                "
+              >
+                <span className="text-black">{selectedSort ?? "Sort By"}</span>
+                <FiChevronDown className="text-[#E7B250]" />
+              </button>
 
-                {/* Sort Dropdown */}
-                {sortOpen && (
-                  <div className="absolute right-0 top-full z-20 mt-2 w-full border border-[#E7B250] bg-black p-4 text-sm text-white">
-                    <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                      Featured
-                    </p>
-                    <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                      Price: Low to High
-                    </p>
-                    <p className="py-1 hover:text-[#E7B250] cursor-pointer">
-                      Price: High to Low
-                    </p>
-                  </div>
-                )}
-              </div>
+              {sortOpen && (
+                <div className="absolute right-0 top-full z-20 mt-2 w-full bg-black p-4 text-sm text-white">
+                  {selectedSort && (
+                    <>
+                      <p
+                        onClick={() => {
+                          setSelectedSort(null);
+                          setSortOpen(false);
+                        }}
+                        className="
+                          mb-2 cursor-pointer!
+                          text-xs text-[#9B9B9B]
+                          hover:text-[#E7B250]
+                        "
+                      >
+                        Clear Sort
+                      </p>
 
-              {/* Product Count */}
-              <p className="hidden sm:block text-sm text-black">
-                {categoryLabel} <span>(90)</span>
-              </p>
-            </div>
+                      <div className="mb-2 h-px bg-white/10" />
+                    </>
+                  )}
+
+                  {["Price: Low to High", "Price: High to Low"].map(
+                    (item) => (
+                      <p
+                        key={item}
+                        onClick={() => {
+                          setSelectedSort(item);
+                          setSortOpen(false);
+                        }}
+                        className={`
+                          py-1 cursor-pointer
+                          hover:text-[#E7B250]
+                          ${
+                            selectedSort === item
+                              ? "text-[#E7B250] font-medium"
+                              : ""
+                          }
+                        `}
+                      >
+                        {item}
+                      </p>
+                    )
+                  )}
+                </div>
+              )}
+            </div> */}
           </div>
         </div>
       </section>
@@ -143,9 +287,17 @@ export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
               lg:grid-cols-4
             "
           >
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {isLoading ? (
+              <Loader loadingText="Loading products..." />
+            ) : productList?.length > 0 ? (
+              productList?.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <p className="text-center text-black col-span-full">
+                No products found.
+              </p>
+            )}
           </div>
         </div>
       </section>

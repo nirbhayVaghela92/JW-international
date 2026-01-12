@@ -37,6 +37,7 @@ export default function LoginPage() {
       password: values.password,
     });
 
+
     if (res?.data?.token) {
       Cookies.set("token", res.data.token);
       LocalStorageSetItem("userDetails", JSON.stringify(res.data.user));

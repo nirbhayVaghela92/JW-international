@@ -27,7 +27,7 @@ export const useRegister = () => {
 export const useUpdateProfile = () => {
   const response = useMutation({
     mutationKey: ["useUpdateProfile"],
-    mutationFn: async (body: Partial<registerSchemaType>) => {
+    mutationFn: async (body: registerSchemaType) => {
       // Assuming there's an updateProfile service function
       const res = await updateProfile(body);
       return res;

@@ -18,6 +18,10 @@ import {
 } from "@/components/ui/popover";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useProductList } from "@/hooks/queries/useProduct";
+import { useRouter } from "next/navigation";
+import { routes } from "@/lib/routes";
+import { formatPrice } from "@/helpers/commonHelpers";
 
 // Sample product data - replace with your actual data source
 const sampleProducts = [
@@ -33,11 +37,21 @@ const sampleProducts = [
 
 export function SearchBar({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(sampleProducts);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const {
+    data: productList,
+    isLoading,
+    pagination,
+  } = useProductList({
+    search: searchQuery,
+    page: 1,
+    limit: 12,
+  });
+  console.log(productList, "productList")
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredProducts(sampleProducts);
@@ -58,11 +72,11 @@ export function SearchBar({ className }: { className?: string }) {
     }, 100);
   };
 
-  const handleSelectProduct = (product: (typeof sampleProducts)[0]) => {
-    console.log("Selected product:", product);
+  const handleSelectProduct = (productSlug: string) => {
+    console.log("Selected product:", productSlug);
     setOpen(false);
     setSearchQuery("");
-    // Navigate to product page or perform action
+    router.push(routes.productDetails(productSlug));
   };
 
   const handleClearSearch = () => {
@@ -127,30 +141,30 @@ export function SearchBar({ className }: { className?: string }) {
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-0"
+        className="w-(--radix-popover-trigger-width) p-0"
         align="start"
         sideOffset={8}
       >
         <Command>
           <CommandList className="max-h-[300px]">
-            {filteredProducts.length === 0 ? (
+            {productList?.length === 0 ? (
               <CommandEmpty>No products found.</CommandEmpty>
             ) : (
               <CommandGroup heading="Products">
-                {filteredProducts.map((product) => (
+                {productList?.map((product) => (
                   <CommandItem
                     key={product.id}
-                    onSelect={() => handleSelectProduct(product)}
+                    onSelect={() => handleSelectProduct(product?.slug)}
                     className="flex items-center justify-between"
                   >
                     <div className="flex flex-col">
                       <span className="font-medium">{product.name}</span>
                       <span className="text-xs text-muted-foreground">
-                        {product.category}
+                        {product.category_name}
                       </span>
                     </div>
                     <span className="text-sm font-semibold">
-                      ${product.price.toFixed(2)}
+                      ${formatPrice(Number(product?.price))}
                     </span>
                   </CommandItem>
                 ))}

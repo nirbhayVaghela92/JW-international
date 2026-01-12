@@ -21,11 +21,17 @@ export const register = (body: registerSchemaType) => {
   });
 };
 
-export const updateProfile = (body: Partial<registerSchemaType>) => {
+export const updateProfile = (body: registerSchemaType) => {
   return apiRequest({
     method: "put",
     url: API.updateProfile,
-    data: body,
+    data: { 
+      first_name: body.firstName,
+      last_name: body.lastName,
+      email: body.email,
+      phone: body.phoneNumber,
+      ...(body.password && { password: body.password }),
+    },
     successMessage: "Profile updated successfully.",
   });
 }

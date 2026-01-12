@@ -13,18 +13,23 @@ import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/helpers/commonHelpers";
 import CartQuantityActions from "../cart/CartQuantityActions";
+import { useProductDetails } from "@/hooks/queries/useProduct";
 
 export default function ProductDetails() {
-  const { productId } = useParams();
-  const productDetail = products.find((p) => p.id === Number(productId));
-  const [activeImage, setActiveImage] = useState(productDetail?.images?.[0]);
+  const { productSlug } = useParams();
+  console.log(productSlug, "productSlug");
+  // const productDetail = products.find((p) => p.id === Number(productId));
+  const { data: productDetail } = useProductDetails(String(productSlug));
+  const [activeImage, setActiveImage] = useState();
   const [activeColor, setActiveColor] = useState(
-    productDetail?.colorOptions?.[0]
+    "#094745"
   );
   const thumbRef = useRef(null);
-  const { getItem, addToCart, decreaseQty, increaseQty } = useCartStore();
+  const { getItem, addToCart } = useCartStore();
 
-  const cartItem = getItem(Number(productId));
+  console.log(productDetail, "productDetails");
+
+  const cartItem = getItem(Number(productDetail?.id));
 
   const scrollUp = () => {
     thumbRef.current?.scrollBy({ top: -120, behavior: "smooth" });
@@ -42,10 +47,10 @@ export default function ProductDetails() {
     });
   };
 
-  if (!productDetail) {
-    toast.error("Product not found");
-    return;
-  }
+  // if (!productDetail) {
+  //   toast.error("Product not found");
+  //   return;
+  // }
 
   return (
     <section className="py-20">

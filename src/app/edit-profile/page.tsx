@@ -12,16 +12,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { editProfileSchema, editProfileSchemaType } from "@/types/schemas";
 import { useUpdateProfile } from "@/hooks/queries";
 import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
+import { LocalStorageSetItem } from "@/helpers/storageHelpers";
 
 export default function EditProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
-  const { user} = useGetAuthDetails();
-  console.log(user, "user")
+  const { user } = useGetAuthDetails();
+
   const {
-    getValues,
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -36,16 +37,28 @@ export default function EditProfilePage() {
       confirmPassword: null,
     },
     resolver: yupResolver(editProfileSchema),
-  }); 
+  });
 
   const onSubmit = async (values: editProfileSchemaType) => {
-    await updateProfile({
+    const res = await updateProfile({
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
       phoneNumber: values.phoneNumber,
       password: values.password,
     });
+
+    if (res?.data?.success) {
+      LocalStorageSetItem("userDetails", JSON.stringify(res.data.user));
+      reset({
+        firstName: res.data.user.first_name,
+        lastName: res.data.user.last_name,
+        email: res.data.user.email,
+        phoneNumber: res.data.user.phone,
+        password: null,
+        confirmPassword: null,
+      });
+    }
   };
 
   return (
@@ -65,7 +78,7 @@ export default function EditProfilePage() {
                 className="mt-12 space-y-6"
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
-              > 
+              >
                 {/* First & Last Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputField
@@ -173,5 +186,3 @@ export default function EditProfilePage() {
     </>
   );
 }
-
-

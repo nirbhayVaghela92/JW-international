@@ -28,7 +28,7 @@ export const registerSchema = Yup.object({
       /[@$!%*?&#]/,
       "Password must contain at least one special character"
     )
-    .required("Password is required"),
+    .optional(),
   confirmPassword: Yup.string()
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -42,24 +42,37 @@ export const editProfileSchema = Yup.object({
     .required("Email is required")
     .email("Invalid email address"),
   phoneNumber: Yup.string().trim().required("Phone number is required"),
+
   password: Yup.string()
-    .trim()
-    .min(8, "Password must be at least 8 characters")
-    .max(64, "Password must be at most 64 characters")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-    .matches(/\d/, "Password must contain at least one number")
-    .matches(
-      /[@$!%*?&#]/,
-      "Password must contain at least one special character"
-    )
+    .transform((value) => (value === "" ? null : value))
     .nullable()
-    .optional(),
+    .notRequired()
+    .test(
+      "password-validation",
+      "Password must be at least 8 characters, contain uppercase, lowercase, number and special character",
+      function (value) {
+        if (!value) return true; 
+        return (
+          value.length >= 8 &&
+          value.length <= 64 &&
+          /[A-Z]/.test(value) &&
+          /[a-z]/.test(value) &&
+          /\d/.test(value) &&
+          /[@$!%*?&#]/.test(value)
+        );
+      }
+    ),
+
   confirmPassword: Yup.string()
-    .required("Confirm Password is required")
-    .oneOf([Yup.ref("password")], "Passwords must match")
+    .transform((value) => (value === "" ? null : value))
     .nullable()
-    .optional(),
+    .notRequired()
+    .test("confirm-password", "Passwords must match", function (value) {
+      const { password } = this.parent;
+
+      if (!password) return true; 
+      return value === password;
+    }),
 });
 export type editProfileSchemaType = Yup.InferType<typeof editProfileSchema>;
 
@@ -92,7 +105,9 @@ export const forgotPasswordSchema = Yup.object({
     .email("Invalid email address")
     .required("Email is required"),
 });
-export type forgotPasswordSchemaType = Yup.InferType<typeof forgotPasswordSchema>;
+export type forgotPasswordSchemaType = Yup.InferType<
+  typeof forgotPasswordSchema
+>;
 
 export const resetPasswordSchema = Yup.object({
   password: Yup.string()

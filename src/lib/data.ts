@@ -1,6 +1,12 @@
 import { Product } from "@/types";
 import { Categories } from "./constants";
 
+export const filterOptions = [
+  { key: "price_low_to_high", label: "Price: Low to High" },
+  { key: "price_high_to_low", label: "Price: High to Low" },
+  { key: "new_arrivals", label: "New Arrivals" },
+] as const;
+
 const images = [
   "/images/productDetail/p1.png",
   "/images/productDetail/p2.png",

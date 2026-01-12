@@ -24,6 +24,8 @@ import { HiOutlineCalendar } from "react-icons/hi";
 import VideoSection from "@/components/sections/VideoSection";
 import { routes } from "@/lib/routes";
 import { products } from "@/lib/data";
+import { useProductList } from "@/hooks/queries/useProduct";
+import { Loader } from "@/components/common/Loader";
 
 const banners = [
   {
@@ -70,7 +72,6 @@ const categories = [
     route: routes.jewellery,
   },
 ];
-
 
 const testimonials = [
   {
@@ -123,7 +124,6 @@ const blogs = [
   },
 ];
 
-
 const items = [
   {
     id: 1,
@@ -155,10 +155,21 @@ export default function HomePage() {
   const router = useRouter();
   const carouselRef = useRef(null);
   const duplicatedTestimonials = [...testimonials, ...testimonials];
-
   const [api, setApi] = useState(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
+  const { data: bestSellingProducts, isLoading: bestSellingProductsLoading } =
+    useProductList({
+      bestSeller: true,
+      page: 1,
+      limit: 12,
+    });
+  const { data: newArrivalsProductsListing, isLoading: newArrivalsProductsListingLoading } =
+    useProductList({
+      newArrival: true,
+      page: 1,
+      limit: 12,
+    });
 
   const onInit = (embla) => {
     setApi(embla);
@@ -291,14 +302,18 @@ export default function HomePage() {
         <div className="relative mt-16">
           <Carousel opts={{ align: "start", loop: false }} setApi={onInit}>
             <CarouselContent className="-ml-6">
-              {products?.slice(0, 7).map((product) => (
-                <CarouselItem
-                  key={product.id}
-                  className="pl-6 basis-full sm:basis-1/2 lg:basis-[20%]"
-                >
-                  <ProductCard product={product} />
-                </CarouselItem>
-              ))}
+              {bestSellingProductsLoading ? (
+                <Loader />
+              ) : (
+                bestSellingProducts?.map((product) => (
+                  <CarouselItem
+                    key={product.id}
+                    className="pl-6 basis-full sm:basis-1/2 lg:basis-[20%]"
+                  >
+                    <ProductCard product={product} />
+                  </CarouselItem>
+                ))
+              )}
             </CarouselContent>
           </Carousel>
 
@@ -364,9 +379,13 @@ export default function HomePage() {
 
           {/* Products Grid */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {newArrivalsProductsListingLoading ? (
+              <Loader />
+            ) : (
+              newArrivalsProductsListing?.slice(0, 4).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -441,7 +460,12 @@ export default function HomePage() {
                 className="mx-auto"
               />
               <h4 className="text-[32px] mb-3.75">Watches</h4>
-              <Button className="w-full mx-auto max-w-91.25 cursor-pointer" onClick={() => router.push(routes.watches)}>Discover</Button>
+              <Button
+                className="w-full mx-auto max-w-91.25 cursor-pointer"
+                onClick={() => router.push(routes.watches)}
+              >
+                Discover
+              </Button>
             </div>
             <div className="text-center bg-[#F6EDDB] pb-6.75">
               <Image
@@ -452,7 +476,12 @@ export default function HomePage() {
                 className="mx-auto"
               />
               <h4 className="text-[32px] mb-3.75">Purses</h4>
-              <Button className="w-full mx-auto max-w-91.25 cursor-pointer" onClick={() => router.push(routes.purses)}>Discover</Button>
+              <Button
+                className="w-full mx-auto max-w-91.25 cursor-pointer"
+                onClick={() => router.push(routes.purses)}
+              >
+                Discover
+              </Button>
             </div>
             <div className="text-center bg-[#F6EDDB] pb-6.75">
               <Image
@@ -463,7 +492,12 @@ export default function HomePage() {
                 className="mx-auto"
               />
               <h4 className="text-[32px] mb-3.75">Jewellery</h4>
-              <Button className="w-full mx-auto max-w-91.25 cursor-pointer" onClick={() => router.push(routes.jewellery)}>Discover</Button>
+              <Button
+                className="w-full mx-auto max-w-91.25 cursor-pointer"
+                onClick={() => router.push(routes.jewellery)}
+              >
+                Discover
+              </Button>
             </div>
           </div>
         </div>

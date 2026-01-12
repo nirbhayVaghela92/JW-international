@@ -4,7 +4,7 @@ export const routes = {
   register: "/register",
   editUserDetails: "/edit-profile",
   product: "/products",
-  productDetails: (productId) => `/products/${productId}`,
+  productDetails: (productSlug) => `/products/${productSlug}`,
   wishList: "/wish-list",
   menWatches: "/men-watches",
   womenWatches: "/women-watches",

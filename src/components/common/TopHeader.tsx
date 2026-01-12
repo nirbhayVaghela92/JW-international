@@ -69,7 +69,7 @@ export default function TopHeader() {
                   alt="JS International"
                   width={340}
                   height={69}
-                  className="h-auto w-35 md:w-45 xl:w-85"
+                  className="h-auto w-35! md:w-45! xl:w-85!"
                 />
               </Link>
             </div>

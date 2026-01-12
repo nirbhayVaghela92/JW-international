@@ -38,10 +38,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable}`}>
-        <TopHeader />
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <LayoutWrapper>
+          <TopHeader />
+          {children}
+          <Footer />
+        </LayoutWrapper>
         {/* <BlogSection /> */}
-        <Footer />
       </body>
     </html>
   );

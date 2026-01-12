@@ -3,3 +3,7 @@ export function formatPrice(price) {
 
   return price.toLocaleString("en-IN");
 }
+
+export const getLabelFromKey = (key:any, list: any[]) => {
+  return list.find((item) => item.key === key)?.label ?? "";
+}

@@ -87,7 +87,7 @@ export default function ProductDetails() {
       stockQuantity: activeVariant.stock,
     });
 
-    toast.success("Added to cart 🛒");
+    toast.success("Added to cart!");
   };
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function ProductDetails() {
                     )}
                   >
                     <Image
-                      src={getFullImageUrl(img.image_url)}
+                      src={img.image_url}
                       alt={productDetail.product.name}
                       width={140}
                       height={140}
@@ -144,7 +144,7 @@ export default function ProductDetails() {
             {/* Main Image */}
             <div className="w-full max-w-166.25">
               <Image
-                src={getFullImageUrl(activeImage)}
+                src={activeImage}
                 alt={productDetail.product.name}
                 width={665}
                 height={665}
@@ -201,7 +201,7 @@ export default function ProductDetails() {
 
                       <span
                         className="w-9 h-9 rounded-full border"
-                        style={{ backgroundColor: variant.hexCode }}
+                        style={{ backgroundColor: variant.color }}
                         title={variant.color}
                       />
                     </button>
@@ -213,8 +213,8 @@ export default function ProductDetails() {
                 <p className="mt-3 text-sm">
                   {activeVariant.stock > 0 ? (
                     <span className="text-green-700">
-                      {activeVariant.stock} left in stock for{" "}
-                      <strong>{activeVariant.color}</strong>
+                      {activeVariant.stock} left in stock 
+                      {/* for{" "}<strong>{activeVariant.color}</strong> */}
                     </span>
                   ) : (
                     <span className="text-red-600">

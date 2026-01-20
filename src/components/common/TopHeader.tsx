@@ -19,7 +19,7 @@ import { SearchBar } from "./SearchBar";
 import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
 import CartIcon from "@/components/cart/CartIcon";
 import { useCartStore } from "@/hooks/store/useCartStore";
-import { UserMenu } from "./userMenu";
+import { UserMenu } from "@/components/common/userMenu";
 
 export default function TopHeader() {
   const pathName = usePathname();
@@ -146,7 +146,7 @@ export default function TopHeader() {
 
                   <UserMenu
                     isAuthenticated={isAuthenticated}
-                    userName={user?.name}
+                    userName={user?.name || "User"}
                     onLogout={handleLogout}
                   />
 

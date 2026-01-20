@@ -23,7 +23,6 @@ import { Card } from "@/components/ui/card";
 import { HiOutlineCalendar } from "react-icons/hi";
 import VideoSection from "@/components/sections/VideoSection";
 import { routes } from "@/lib/routes";
-import { products } from "@/lib/data";
 import { useProductList } from "@/hooks/queries/useProduct";
 import { Loader } from "@/components/common/Loader";
 

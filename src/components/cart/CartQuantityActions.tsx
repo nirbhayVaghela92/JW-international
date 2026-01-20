@@ -3,27 +3,33 @@ import { FC } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
 
 interface CartQuantityActionsProps {
-  cartId: number;
+  productId: number;
+  variantId: number;
   quantity: number;
   stockQuantity: number;
 }
 
 const CartQuantityActions: FC<CartQuantityActionsProps> = ({
-  cartId,
+  productId,
+  variantId,
   quantity,
   stockQuantity,
 }) => {
   const { decreaseQty, increaseQty } = useCartStore();
+
   return (
     <div className="flex items-center gap-6 border px-6 py-4 flex-1 justify-between text-black">
-      <button onClick={() => decreaseQty(cartId)} className="text-lg cursor-pointer">
+      <button
+        onClick={() => decreaseQty(productId, variantId)}
+        className="text-lg cursor-pointer"
+      >
         <FiMinus />
       </button>
 
       <span className="font-medium">{quantity}</span>
 
       <button
-        onClick={() => increaseQty(cartId)}
+        onClick={() => increaseQty(productId, variantId)}
         className="text-lg cursor-pointer"
         disabled={quantity >= stockQuantity}
       >

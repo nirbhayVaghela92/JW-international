@@ -11,6 +11,7 @@ import { formatPrice } from "@/helpers/commonHelpers";
 export default function CartSidebar({ isOpen, onClose }) {
   const router = useRouter();
   const { cartItems, getTotalCartAmount } = useCartStore();
+
   // Lock scroll
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -55,20 +56,23 @@ export default function CartSidebar({ isOpen, onClose }) {
             <Image
               className="w-10.5 h-10.5 cursor-pointer"
               src="/images/icons/close.png"
-              alt="Shield image"
+              alt="Close"
               width={54}
               height={54}
             />
           </button>
         </div>
 
-        {/* Cart Item */}
+        {/* Cart Items */}
         <div className="flex-1 overflow-y-auto px-8 py-6">
           {cartItems.length === 0 ? (
             <p className="text-center text-gray-500">Your cart is empty.</p>
           ) : (
-            cartItems.map((product) => (
-              <CartItem key={product.id} cartItemDetails={product} />
+            cartItems.map((cartItem) => (
+              <CartItem
+                key={`${cartItem.productId}-${cartItem.variantId}`}
+                cartItemDetails={cartItem}
+              />
             ))
           )}
         </div>
@@ -88,14 +92,14 @@ export default function CartSidebar({ isOpen, onClose }) {
             MRP (Inclusive of all taxes) Shipping calculated at checkout.
           </p>
 
-          <div className="flex  flex-col md:flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <Button
               bgColor="bg-transparent"
               textColor="text-[#1B1918]"
               px="px-6"
               py="py-3"
               fontSize="text-sm"
-              className="w-full md:w-1/2 border border-[#E7B250] cursor-pointer"
+              className="w-full md:w-1/2 border border-[#E7B250]"
               onClick={() => {
                 router.push("/#categories");
                 onClose();
@@ -110,7 +114,7 @@ export default function CartSidebar({ isOpen, onClose }) {
               px="px-6"
               py="py-3"
               fontSize="text-sm"
-              className="w-full md:w-1/2 cursor-pointer"
+              className="w-full md:w-1/2"
             >
               CHECKOUT
             </Button>

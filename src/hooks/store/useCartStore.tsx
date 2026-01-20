@@ -1,17 +1,19 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { CartItem, Product } from "@/types";
+import { CartItem } from "@/types";
 
 type CartStore = {
   cartItems: CartItem[];
 
-  addToCart: (product: CartItem) => void;
-  removeFromCart: (productId: number) => void;
-  increaseQty: (productId: number) => void;
-  decreaseQty: (productId: number) => void;
-  getItem: (id: number) => CartItem | undefined;
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (productId: number, variantId: number) => void;
+
+  increaseQty: (productId: number, variantId: number) => void;
+  decreaseQty: (productId: number, variantId: number) => void;
+
+  getItem: (productId: number, variantId: number) => CartItem | undefined;
+
   getTotalCartAmount: () => number;
-  getItemTotalAmount: (id: number) => number;
   clearCart: () => void;
 };
 
@@ -20,74 +22,84 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       cartItems: [],
 
-      /* ADD TO CART (quantity = NEW ADDITION) */
-      addToCart: (product) => {
+      /* ADD TO CART */
+      addToCart: (item) => {
         const existingItem = get().cartItems.find(
-          (item) => item.id === product.id
+          (i) =>
+            i.productId === item.productId &&
+            i.variantId === item.variantId
         );
-        console.log(existingItem, "existingItem in add to cart");
-        if (existingItem) {
-          const newQty = existingItem.quantity + product.quantity;
 
-          if (newQty > product.stockQuantity) return;
+        if (existingItem) {
+          const newQty = existingItem.quantity + item.quantity;
+
+          if (newQty > existingItem.stockQuantity) {
+            return;
+          }
 
           set({
-            cartItems: get().cartItems.map((item) =>
-              item.id === product.id ? { ...item, cartQuantity: newQty } : item
+            cartItems: get().cartItems.map((i) =>
+              i.productId === item.productId &&
+              i.variantId === item.variantId
+                ? { ...i, quantity: newQty }
+                : i
             ),
           });
         } else {
-          if (product.quantity > product.stockQuantity) return;
-          console.log(product, "product in add to cart");
+          if (item.quantity > item.stockQuantity) return;
+
           set({
-            cartItems: [...get().cartItems, product],
+            cartItems: [...get().cartItems, item],
           });
         }
       },
 
-      /* REMOVE ITEM COMPLETELY */
-      removeFromCart: (productId) =>
+      /* REMOVE VARIANT */
+      removeFromCart: (productId, variantId) =>
         set({
-          cartItems: get().cartItems.filter((item) => item.id !== productId),
+          cartItems: get().cartItems.filter(
+            (i) =>
+              !(i.productId === productId && i.variantId === variantId)
+          ),
         }),
 
       /* +1 */
-      increaseQty: (productId) =>
+      increaseQty: (productId, variantId) =>
         set({
-          cartItems: get().cartItems.map((item) =>
-            item.id === productId && item.quantity < item.stockQuantity
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
+          cartItems: get().cartItems.map((i) =>
+            i.productId === productId &&
+            i.variantId === variantId &&
+            i.quantity < i.stockQuantity
+              ? { ...i, quantity: i.quantity + 1 }
+              : i
           ),
         }),
 
       /* -1 */
-      decreaseQty: (productId) =>
+      decreaseQty: (productId, variantId) =>
         set({
           cartItems: get()
-            .cartItems.map((item) =>
-              item.id === productId
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
+            .cartItems.map((i) =>
+              i.productId === productId &&
+              i.variantId === variantId
+                ? { ...i, quantity: i.quantity - 1 }
+                : i
             )
-            .filter((item) => item.quantity > 0),
+            .filter((i) => i.quantity > 0),
         }),
 
-      /* GET ITEM BY ID */
-      getItem: (id) => get().cartItems.find((i) => i.id === id),
+      getItem: (productId, variantId) =>
+        get().cartItems.find(
+          (i) =>
+            i.productId === productId &&
+            i.variantId === variantId
+        ),
 
-      /* GET TOTAL AMOUNT */
       getTotalCartAmount: () =>
         get().cartItems.reduce(
           (total, item) => total + item.price * item.quantity,
           0
         ),
-
-      /* GET TOTAL AMOUNT FOR A PARTICULAR ITEM */
-      getItemTotalAmount: (id) => {
-        const item = get().cartItems.find((i) => i.id === id);
-        return item ? item.price * item.quantity : 0;
-      },
 
       clearCart: () => set({ cartItems: [] }),
     }),

@@ -233,7 +233,7 @@ export function SearchBar({ className }: { className?: string }) {
           <CommandList
             className={cn(
               "min-w-62.5 min-h-25 overflow-y-auto",
-              isLoading || (!isLoading && productList.length === 0)
+              isLoading || (!isLoading && productList?.length === 0)
                 ? "flex items-center justify-center "
                 : ""
             )}
@@ -252,7 +252,7 @@ export function SearchBar({ className }: { className?: string }) {
               </div>
             )}
 
-            {productList && productList.length > 0 && (
+            {productList && productList?.length > 0 && (
               <CommandGroup heading="Products">
                 {productList.map((product) => (
                   <CommandItem

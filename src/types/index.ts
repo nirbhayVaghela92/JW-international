@@ -5,25 +5,48 @@ export type Categories = "menWatches" | "womenWatches" | "purses" | "jewellery";
 export type ProductSections = Categories | "WishList" | "watches" | "all";
 
 export type ProductFilters = ProductSections | "bestSeller" | "newArrival"
-export interface Product {
+export interface ProductVariant {
   id: number;
-  // productId?: string;
-  code?: string;
-  name: string;
-  description?: string;
-  price: number;
-  oldPrice?: number;
-  category: Categories;
-  quantity?: number; // For cart items
-  stockQuantity?: number;
-  colorOptions?: string[];
-  coverImageUrl?: string;
-  images?: string[];
+  color: string;
+  stock: number;
+  hexCode: string;
 }
 
-export interface CartItem extends Product {
-  selectedColorOptions: string;
+export interface Product {
+  id: number;
+  code?: string;
+
+  name: string;
+  description?: string;
+
+  price: number;
+  oldPrice?: number;
+
+  category: Categories;
+
+  coverImageUrl?: string;
+  images?: string[];
+
+  variants: ProductVariant[]; 
 }
+
+
+export interface CartItem {
+  productId: number;
+  variantId: number;
+
+  name: string;
+  code?: string;
+  price: number;
+  coverImageUrl?: string;
+
+  variantName: string;
+  hexCode: string;
+
+  quantity: number;
+  stockQuantity: number;
+}
+
 
 // Product API Filters
 export type SortOrder = "ASC" | "DESC";

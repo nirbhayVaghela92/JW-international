@@ -1,12 +1,12 @@
 import { apiRequest } from "@/helpers/apiRequest";
 import { API } from "@/lib/api/apiUrl";
+import { contactSupportSchemaType } from "@/types/schemas";
 
-
-export const submitContactQuery = (body: any) => {
+export const submitContactQuery = (body: contactSupportSchemaType) => {
   return apiRequest({
     method: "post",
-    url: API.signin,
+    url: API.submitContactQuery,
     data: body,
-    successMessage: "Login successfully.",
+    successMessage: "Your query has been submitted successfully.",
   });
 };

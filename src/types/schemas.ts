@@ -77,7 +77,7 @@ export const editProfileSchema = Yup.object({
 export type editProfileSchemaType = Yup.InferType<typeof editProfileSchema>;
 
 export const contactSupportSchema = Yup.object().shape({
-  name: Yup.string()
+  fullName: Yup.string()
     .required("Full name is required")
     .min(2, "Name must be at least 2 characters")
     .max(100, "Name must not exceed 100 characters")
@@ -88,7 +88,7 @@ export const contactSupportSchema = Yup.object().shape({
     .email("Please enter a valid email address")
     .max(255, "Email must not exceed 255 characters"),
 
-  phoneNumber: Yup.string().trim().required("Phone number is required"),
+  phoneNo: Yup.string().trim().required("Phone number is required"),
 
   query: Yup.string()
     .required("Please describe your query")

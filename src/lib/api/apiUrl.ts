@@ -13,4 +13,7 @@ export const API = {
   // verifyForgotPasswordOtp: "/admin/forgot-password/verify-otp",
   // resetPassword: "/admin/forgot-password/update-password",
   // changePassword: "/admin/account-settings/change-password",
+
+  // submit contact query
+  submitContactQuery: "/submit-query",
 };

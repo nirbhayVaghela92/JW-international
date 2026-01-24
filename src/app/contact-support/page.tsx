@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import SectionHeading from "@/components/common/SectionHeading";
 import Button from "@/components/common/Button";
 import { useRouter } from "next/navigation";
@@ -23,22 +22,23 @@ export default function ContactSupportPage() {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      name: "",
+      fullName: "",
       email: "",
-      phoneNumber: "",
+      phoneNo: "",
       query: "",
     },
     resolver: yupResolver(contactSupportSchema),
   });
 
   const onSubmit = async (values: contactSupportSchemaType) => {
+    console.log(values, "values")
     await submitQuery({
-      name: values.name,
+      fullName: values.fullName,
       email: values.email,
-      phoneNumber: values.phoneNumber,
+      phoneNo: values.phoneNo,
       query: values.query,
     });
-    reset(); // Reset form after successful submission
+    reset(); 
   };
 
   return (
@@ -65,8 +65,8 @@ export default function ContactSupportPage() {
                   required
                   icon={<HiOutlineUser />}
                   placeholder="Enter your full name"
-                  error={errors.name?.message}
-                  {...register("name")}
+                  error={errors.fullName?.message}
+                  {...register("fullName")}
                 />
 
                 {/* Email */}
@@ -87,8 +87,8 @@ export default function ContactSupportPage() {
                   type="phoneNumber"
                   icon={<HiOutlinePhone />}
                   placeholder="Enter your phone number"
-                  {...register("phoneNumber")}
-                  error={errors.phoneNumber?.message}
+                  {...register("phoneNo")}
+                  error={errors.phoneNo?.message}
                 />
 
                 {/* Query/Message */}

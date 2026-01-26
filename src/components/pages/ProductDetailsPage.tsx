@@ -2,7 +2,7 @@
 
 import ProductDetails from "@/components/products/productDetails";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import SectionHeading from "@/components/common/SectionHeading";
 import {
@@ -15,35 +15,13 @@ import ProductCard from "@/components/common/ProductCard";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import FaqSection from "@/components/sections/FaqSection";
 import { routes } from "@/lib/routes";
-import { useProductList } from "@/hooks/queries/useProduct";
+import { useProductDetails, useProductList } from "@/hooks/queries/useProduct";
 import { Loader } from "@/components/common/Loader";
+import { productDetails } from "@/services";
 
-const blogs = [
-  {
-    id: 1,
-    image: "/images/blogs/blog-1.png",
-    date: "November 6, 2025",
-    title: "Styling Tips: How to Wear Designer Jewellery for Every Occasion",
-    link: "/blogs/styling-tips",
-  },
-  {
-    id: 2,
-    image: "/images/blogs/blog-2.png",
-    date: "November 6, 2025",
-    title: "Luxury on a Budget: Best Affordable Designer Handbags",
-    link: "/blogs/luxury-on-budget",
-  },
-  {
-    id: 3,
-    image: "/images/blogs/blog-3.png",
-    date: "November 6, 2025",
-    title: "How Luxury Jewellery Brands Are Embracing Sustainability",
-    link: "/blogs/sustainability",
-  },
-];
-
-export default function ProductDetail() {
+export default function ProductView() {
   const router = useRouter();
+  const { productSlug } = useParams();
   const [api, setApi] = useState(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
@@ -56,6 +34,7 @@ export default function ProductDetail() {
     page: 1,
     limit: 12,
   });
+  const { data: productDetails } = useProductDetails(String(productSlug));
 
   // const categoryLabel = getSectionLabel(category);
 
@@ -97,13 +76,13 @@ export default function ProductDetail() {
             <span className="mx-2">/</span>
 
             <span className="text-[#E7B250] font-medium">
-              Minuit Watch Mesh, White, Silver Colour
+              {productDetails.product.name}
             </span>
           </nav>
         </div>
       </section>
       <div className="bg:[#FBF8F0]">
-        <ProductDetails />
+        <ProductDetails productDetails={productDetails}/>
       </div>
 
       <section className="bg-white py-28 relative">

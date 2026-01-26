@@ -11,37 +11,39 @@ import { useCartStore } from "@/hooks/store/useCartStore";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { formatPrice, getFullImageUrl } from "@/helpers/commonHelpers";
-import CartQuantityActions from "../cart/CartQuantityActions";
-import { useProductDetails } from "@/hooks/queries/useProduct";
+import CartQuantityActions from "../cart/CartQuantityActions";  
 import { cn } from "@/lib/utils";
 import { useGetAuthDetails } from "@/hooks/useGetAuthDetails";
 import { routes } from "@/lib/routes";
 import { ProductVariant } from "@/types";
 
-export default function ProductDetails() {
-  const { productSlug } = useParams();
+export default function ProductDetails({
+  productDetails,
+}: {
+  productDetails: any;
+}) {
   const router = useRouter();
 
   const thumbRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: productDetail } = useProductDetails(String(productSlug));
   const { isAuthenticated } = useGetAuthDetails();
   const { getItem, addToCart } = useCartStore();
 
-  const [activeVariant, setActiveVariant] =
-    useState<ProductVariant | null>(null);
+  const [activeVariant, setActiveVariant] = useState<ProductVariant | null>(
+    null,
+  );
 
   const [activeImage, setActiveImage] = useState<string | undefined>(undefined);
 
   const totalStock =
-    productDetail?.variants?.reduce(
+    productDetails?.variants?.reduce(
       (total, variant) => total + (variant.stock || 0),
       0,
     ) || 0;
 
   const cartItem =
-    activeVariant && productDetail?.product
-      ? getItem(productDetail.product.id, activeVariant.id)
+    activeVariant && productDetails?.product
+      ? getItem(productDetails.product.id, activeVariant.id)
       : undefined;
 
   const scrollUp = () => {
@@ -69,16 +71,16 @@ export default function ProductDetails() {
       return;
     }
 
-    if (!productDetail?.product) return;
+    if (!productDetails?.product) return;
 
     addToCart({
-      productId: productDetail.product.id,
+      productId: productDetails.product.id,
       variantId: activeVariant.id,
 
-      name: productDetail.product.name,
-      code: productDetail.product.code,
-      price: Number(productDetail.product.price),
-      coverImageUrl: productDetail.images?.[0]?.image_url,
+      name: productDetails.product.name,
+      code: productDetails.product.code,
+      price: Number(productDetails.product.price),
+      coverImageUrl: productDetails.images?.[0]?.image_url,
 
       variantName: activeVariant.color,
       hexCode: activeVariant.hexCode,
@@ -91,12 +93,12 @@ export default function ProductDetails() {
   };
 
   useEffect(() => {
-    if (productDetail?.images?.length > 0) {
-      setActiveImage(productDetail.images[0].image_url);
+    if (productDetails?.images?.length > 0) {
+      setActiveImage(productDetails.images[0].image_url);
     }
-  }, [productDetail]);
+  }, [productDetails]);
 
-  if (!productDetail) return null;
+  if (!productDetails) return null;
 
   return (
     <section className="py-20">
@@ -114,7 +116,7 @@ export default function ProductDetails() {
                 ref={thumbRef}
                 className="flex md:flex-col gap-3 md:gap-4 max-h-155 overflow-y-auto p-1"
               >
-                {productDetail.images?.map((img, index) => (
+                {productDetails.images?.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveImage(img.image_url)}
@@ -127,7 +129,7 @@ export default function ProductDetails() {
                   >
                     <Image
                       src={img.image_url}
-                      alt={productDetail.product.name}
+                      alt={productDetails.product.name}
                       width={140}
                       height={140}
                       className="w-full h-full object-contain p-3"
@@ -145,7 +147,7 @@ export default function ProductDetails() {
             <div className="w-full max-w-166.25">
               <Image
                 src={activeImage}
-                alt={productDetail.product.name}
+                alt={productDetails.product.name}
                 width={665}
                 height={665}
                 className="w-full"
@@ -156,17 +158,17 @@ export default function ProductDetails() {
           {/* RIGHT : PRODUCT INFO */}
           <div className="max-w-155.5">
             <h1 className="text-3xl font-bold text-[#094745]">
-              {productDetail.product.name}
+              {productDetails.product.name}
             </h1>
 
             <p className="mt-2 text-sm text-gray-500">
-              {productDetail.product.code}
+              {productDetails.product.code}
             </p>
 
             {/* Price */}
             <div className="mt-6 flex items-center gap-4">
               <span className="text-[32px] font-semibold text-[#094745]">
-                Rs. {formatPrice(Number(productDetail.product.price))}
+                Rs. {formatPrice(Number(productDetails.product.price))}
               </span>
             </div>
 
@@ -181,7 +183,7 @@ export default function ProductDetails() {
               <p className="mb-4 font-medium">Color Options:</p>
 
               <div className="flex gap-4">
-                {productDetail.variants?.map((variant) => {
+                {productDetails.variants?.map((variant) => {
                   const isActive = activeVariant?.id === variant.id;
                   const isOutOfStock = variant.stock === 0;
 
@@ -213,13 +215,12 @@ export default function ProductDetails() {
                 <p className="mt-3 text-sm">
                   {activeVariant.stock > 0 ? (
                     <span className="text-green-700">
-                      {activeVariant.stock} left in stock 
+                      {activeVariant.stock} left in stock
                       {/* for{" "}<strong>{activeVariant.color}</strong> */}
                     </span>
                   ) : (
                     <span className="text-red-600">
-                      Out of stock for{" "}
-                      <strong>{activeVariant.color}</strong>
+                      Out of stock for <strong>{activeVariant.color}</strong>
                     </span>
                   )}
                 </p>

@@ -1,7 +1,7 @@
-import ProductDetail from "@/components/pages/ProductDetails";
+import ProductView from "@/components/pages/ProductDetailsPage";
 
-const ProductDetailPage = () => {
-  return <ProductDetail  />;
+const Page = () => {
+  return <ProductView  />;
 }
   
-export default ProductDetailPage;
+export default Page;

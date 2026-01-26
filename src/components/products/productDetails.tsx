@@ -87,7 +87,7 @@ export default function ProductDetails() {
       stockQuantity: activeVariant.stock,
     });
 
-    toast.success("Added to cart!");
+    // toast.success("Added to cart!");
   };
 
   useEffect(() => {

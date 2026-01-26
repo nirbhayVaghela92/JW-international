@@ -45,7 +45,7 @@ export const useProductList = (params: ProductListParams) => {
         ...(newArrival && { newArrival }),
         ...(bestSeller && { bestSeller }),
         ...(wishList && { wishList }),
-        ...(search != "" && { search }),
+        ...(search && { search }),
       });
       return res;
     },

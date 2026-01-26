@@ -64,15 +64,18 @@ export const ProductListPage: FC<ProductListPageProps> = ({ category }) => {
       setFilter((prev) => ({
         ...prev,
         price_sort: "DESC",
+        newArrival: false,
       }));
     } else if (filterOptionKey === "price_low_to_high") {
       setFilter((prev) => ({
         ...prev,
         price_sort: "ASC",
+        newArrival: false,
       }));
     } else if (filterOptionKey === "new_arrivals") {
       setFilter((prev) => ({
         ...prev,
+        price_sort: undefined,
         newArrival: true,
       }));
     }

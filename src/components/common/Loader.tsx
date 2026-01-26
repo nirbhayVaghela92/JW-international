@@ -1,4 +1,4 @@
-export const Loader = ({ loadingText }: { loadingText?: string }) => {
+export const Loader = ({ loadingText, className }: { loadingText?: string, className?: string }) => {
   return (
     <div className="mx-auto max-w-7xl p-6">
       <div className="h-64 flex flex-col items-center justify-center gap-3">

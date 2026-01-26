@@ -119,17 +119,17 @@ export default function ProductDetails({
                 {productDetails.images?.map((img, index) => (
                   <button
                     key={index}
-                    onClick={() => setActiveImage(img.image_url)}
+                    onClick={() => setActiveImage(img?.image_url)}
                     className={cn(
                       "relative w-20 sm:w-24 md:w-28 lg:w-full lg:max-w-28 aspect-square rounded-md bg-white overflow-hidden transition-all",
-                      activeImage === img.image_url
+                      activeImage === img?.image_url
                         ? "ring-2 ring-[#094745]"
                         : "ring-1 ring-gray-300",
                     )}
                   >
                     <Image
-                      src={img.image_url}
-                      alt={productDetails.product.name}
+                      src={img?.image_url}
+                      alt={productDetails?.product?.name}
                       width={140}
                       height={140}
                       className="w-full h-full object-contain p-3"
@@ -147,7 +147,7 @@ export default function ProductDetails({
             <div className="w-full max-w-166.25">
               <Image
                 src={activeImage}
-                alt={productDetails.product.name}
+                alt={productDetails?.product?.name}
                 width={665}
                 height={665}
                 className="w-full"
@@ -158,17 +158,17 @@ export default function ProductDetails({
           {/* RIGHT : PRODUCT INFO */}
           <div className="max-w-155.5">
             <h1 className="text-3xl font-bold text-[#094745]">
-              {productDetails.product.name}
+              {productDetails?.product?.name}
             </h1>
 
             <p className="mt-2 text-sm text-gray-500">
-              {productDetails.product.code}
+              {productDetails?.product?.code}
             </p>
 
             {/* Price */}
             <div className="mt-6 flex items-center gap-4">
               <span className="text-[32px] font-semibold text-[#094745]">
-                Rs. {formatPrice(Number(productDetails.product.price))}
+                Rs. {formatPrice(Number(productDetails?.product?.price))}
               </span>
             </div>
 
@@ -183,13 +183,13 @@ export default function ProductDetails({
               <p className="mb-4 font-medium">Color Options:</p>
 
               <div className="flex gap-4">
-                {productDetails.variants?.map((variant) => {
-                  const isActive = activeVariant?.id === variant.id;
-                  const isOutOfStock = variant.stock === 0;
+                {productDetails?.variants?.map((variant) => {
+                  const isActive = activeVariant?.id === variant?.id;
+                  const isOutOfStock = variant?.stock === 0;
 
                   return (
                     <button
-                      key={variant.id}
+                      key={variant?.id}
                       onClick={() => !isOutOfStock && setActiveVariant(variant)}
                       disabled={isOutOfStock}
                       className={cn(
@@ -203,8 +203,8 @@ export default function ProductDetails({
 
                       <span
                         className="w-9 h-9 rounded-full border"
-                        style={{ backgroundColor: variant.color }}
-                        title={variant.color}
+                        style={{ backgroundColor: variant?.color }}
+                        title={variant?.color}
                       />
                     </button>
                   );
@@ -215,12 +215,12 @@ export default function ProductDetails({
                 <p className="mt-3 text-sm">
                   {activeVariant.stock > 0 ? (
                     <span className="text-green-700">
-                      {activeVariant.stock} left in stock
+                      {activeVariant?.stock} left in stock
                       {/* for{" "}<strong>{activeVariant.color}</strong> */}
                     </span>
                   ) : (
                     <span className="text-red-600">
-                      Out of stock for <strong>{activeVariant.color}</strong>
+                      Out of stock for <strong>{activeVariant?.color}</strong>
                     </span>
                   )}
                 </p>
